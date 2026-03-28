@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+@theme {
+  --color-nile: #0C1B33;
+  --color-nile-light: #1A2D4A;
+  --color-gold: #C9A96E;
+  --color-gold-light: #DFC28E;
+  --color-gold-dark: #A88B4A;
+  --color-sand: #E8D5B7;
+  --color-sand-light: #F0E4D0;
+  --color-papyrus: #F5ECD7;
+  --color-terracotta: #B85C38;
+  --color-terracotta-light: #D4734E;
+  --color-emerald: #2D6A4F;
+  --font-heading: "Playfair Display", "Noto Serif TC", Georgia, serif;
+  --font-body: "Noto Sans TC", "Inter", system-ui, sans-serif;
+}
+
+/* Hieroglyphic decorative border pattern */
+.hieroglyphic-border {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 20px,
+    var(--color-gold) 20px,
+    var(--color-gold) 21px
+  );
+  height: 2px;
+  opacity: 0.4;
+}
+
+/* Egyptian wing divider using CSS */
+.wing-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.wing-divider::before,
+.wing-divider::after {
+  content: "";
+  flex: 1;
+  max-width: 120px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-gold),
+    transparent
+  );
+}
+
+/* Timeline connector */
+.timeline-line {
+  position: absolute;
+  left: 24px;
+  top: 48px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    var(--color-gold),
+    var(--color-gold-dark) 50%,
+    transparent
+  );
+}
+
+/* Day card hover effect */
+.day-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.day-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(12, 27, 51, 0.12);
+}
+
+/* Gold shimmer text */
+.gold-shimmer {
+  background: linear-gradient(
+    135deg,
+    var(--color-gold-dark),
+    var(--color-gold),
+    var(--color-gold-light),
+    var(--color-gold)
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s ease infinite;
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Sand texture overlay */
+.sand-texture {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a96e' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-papyrus);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-dark);
+}
+
+/* Pyramid shape decoration */
+.pyramid-shape {
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 16px solid var(--color-gold);
+}
+
+/* Section fade in */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Navbar glass effect */
+.nav-glass {
+  background: rgba(12, 27, 51, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}

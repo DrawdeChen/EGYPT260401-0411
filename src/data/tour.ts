@@ -1,0 +1,631 @@
+export interface Attraction {
+  zh: string;
+  en: string;
+  arabic?: string;
+  arabicRoman?: string;
+  description?: string;
+  photoTips?: string;
+  isActivity?: boolean;
+}
+
+export interface DaySchedule {
+  day: number;
+  date: string;
+  title: string;
+  subtitle: string;
+  departureTime?: string;
+  attractions: Attraction[];
+  meals: { breakfast?: string; lunch?: string; dinner?: string };
+  hotel: string;
+  details?: string[];
+}
+
+export interface FlightLeg {
+  flight: string;
+  airline: string;
+  date: string;
+  weekday: string;
+  from: string;
+  fromTerminal: string;
+  to: string;
+  toTerminal: string;
+  departure: string;
+  arrival: string;
+  duration: string;
+}
+
+export const tourInfo = {
+  title: "埃及 9 天深度之旅",
+  subtitle: "開羅 ➜ 黑白沙漠 ➜ 阿斯旺 ➜ 盧克索郵輪",
+  agency: "埃及豆豆旅行 Egypt Doudou Travel",
+  agencyPhone: "+20 100 096 4509",
+  agencyEmail: "Mohamed@egyptdoudou.com",
+  agencyAddress: "Egypt Giza Elmansoria Elbasem Street",
+  dateRange: "2026/04/01 – 04/11",
+  totalDays: 11,
+  groupSize: 8,
+  price: {
+    perPerson: "USD $1,850",
+    deposit: "USD $400",
+    domesticFlight: "USD $275（已含在團費中）",
+    balance: "USD $1,725",
+    balanceNote: "住沙漠貝都因房的團員尾款為 USD $1,710",
+    paymentNote: "第二天支付團費",
+  },
+};
+
+export const outboundFlights: FlightLeg[] = [
+  {
+    flight: "MU5006",
+    airline: "中國東方航空",
+    date: "04/01",
+    weekday: "三",
+    from: "臺灣桃園國際機場",
+    fromTerminal: "T2",
+    to: "上海浦東國際機場",
+    toTerminal: "T1",
+    departure: "18:40",
+    arrival: "20:40",
+    duration: "2 小時",
+  },
+  {
+    flight: "MU223",
+    airline: "中國東方航空",
+    date: "04/02",
+    weekday: "四",
+    from: "上海浦東國際機場",
+    fromTerminal: "T1",
+    to: "開羅國際機場",
+    toTerminal: "T3",
+    departure: "01:45",
+    arrival: "07:45",
+    duration: "12 小時",
+  },
+];
+
+export const returnFlights: FlightLeg[] = [
+  {
+    flight: "MU224",
+    airline: "中國東方航空",
+    date: "04/10",
+    weekday: "五",
+    from: "開羅國際機場",
+    fromTerminal: "T3",
+    to: "上海浦東國際機場",
+    toTerminal: "T1",
+    departure: "13:15",
+    arrival: "06:00+1",
+    duration: "10 小時 45 分",
+  },
+  {
+    flight: "FM801",
+    airline: "上海航空",
+    date: "04/11",
+    weekday: "六",
+    from: "上海浦東國際機場",
+    fromTerminal: "T1",
+    to: "台北松山機場",
+    toTerminal: "T1",
+    departure: "09:10",
+    arrival: "11:00",
+    duration: "1 小時 50 分",
+  },
+];
+
+export const accommodations = [
+  {
+    city: "開羅 CAI",
+    hotel: "DOU DOU HOTEL",
+    checkIn: "04/02",
+    checkOut: "04/03",
+    nights: 1,
+    rooms: "03 Twin + 01 King",
+    basis: "B.B（含早餐）",
+  },
+  {
+    city: "黑白沙漠 SHR",
+    hotel: "SKY CAMP × 3 + 貝都因帳篷 × 1",
+    checkIn: "04/03",
+    checkOut: "04/04",
+    nights: 1,
+    rooms: "03 King 星空帳篷 + 01 Twin 貝都因帳篷",
+    basis: "H.B（含早晚餐）",
+  },
+  {
+    city: "開羅 CAI",
+    hotel: "Hilton Cairo Grand Nile",
+    checkIn: "04/04",
+    checkOut: "04/06",
+    nights: 2,
+    rooms: "03 Twin + 01 King",
+    basis: "B.B（含早餐）",
+  },
+  {
+    city: "郵輪 CRZ",
+    hotel: "EL MAHROUSA 尼羅河郵輪（標準船型）",
+    checkIn: "04/06",
+    checkOut: "04/09",
+    nights: 3,
+    rooms: "03 Twin + 01 King",
+    basis: "B.B（含早餐）",
+  },
+  {
+    city: "開羅 CAI",
+    hotel: "Hilton Cairo Grand Nile",
+    checkIn: "04/09",
+    checkOut: "04/10",
+    nights: 1,
+    rooms: "03 Twin + 01 King",
+    basis: "B.B（含早餐）",
+  },
+];
+
+export const domesticFlights = [
+  {
+    route: "開羅 CAI → 阿斯旺 ASW",
+    date: "04/06",
+    time: "05:45 → 07:05",
+    flight: "MS 082",
+    note: "埃及航空 EgyptAir",
+  },
+  {
+    route: "盧克索 LXR → 開羅 CAI",
+    date: "04/09",
+    time: "20:10 → 21:20",
+    flight: "MS 269",
+    note: "埃及航空 EgyptAir",
+  },
+];
+
+export const itinerary: DaySchedule[] = [
+  {
+    day: 1,
+    date: "04/02 (四)",
+    title: "抵達開羅 & 古城巡禮",
+    subtitle: "清真寺、懸空教堂、哈里里市集",
+    departureTime: "抵達後出發",
+    attractions: [
+      { zh: "抵達開羅機場，助理協助辦理落地簽", en: "Arrive Cairo, visa on arrival assistance", isActivity: true },
+      {
+        zh: "薩拉丁城堡",
+        en: "Saladin Citadel",
+        arabic: "قلعة صلاح الدين",
+        arabicRoman: "Qalaʿat Salāḥ ad-Dīn",
+        description: "建於 1176 年的伊斯蘭軍事要塞，由薩拉丁蘇丹下令興建以抵禦十字軍。城堡坐落於穆卡塔姆山上，可 360° 俯瞰整個開羅市區。建議停留 2–3 小時，平日人潮較少。城堡內有多座清真寺與博物館可一併參觀。",
+        photoTips: "🔥 必拍：登上 Al-Gawhara 露台，用全景模式掃一圈開羅天際線，清真寺圓頂群超壯觀。｜🤳 趣味構圖：站在露台欄杆前，手機低角度仰拍，人+圓頂+藍天一次收齊。｜👥 團體照：城堡入口廣場很寬，全團排一排就能拍到城牆+城市背景。",
+      },
+      {
+        zh: "穆罕默德·阿里清真寺",
+        en: "Mosque of Muhammad Ali",
+        arabic: "مسجد محمد علي",
+        arabicRoman: "Masjid Muḥammad ʿAlī",
+        description: "位於城堡內的地標建築，又稱「雪花石膏清真寺」，1848 年完工。奧斯曼風格的巨大圓頂與細長宣禮塔是開羅天際線的標誌。內部以雪花石膏裝飾牆面，挑高大廳吊掛數百盞水晶燈。進入需脫鞋，可穿襪子。",
+        photoTips: "🔥 必拍：中庭抬頭拍圓頂內部的彩繪穹頂，手機超廣角模式效果驚人。｜🤳 趣味構圖：中庭噴泉前蹲低拍，水面倒映圓頂和宣禮塔。｜👥 團體照：中庭空間大，圍著噴泉站一圈拍俯角。⚠️ 室內關閃光燈。",
+      },
+      {
+        zh: "懸空教堂",
+        en: "The Hanging Church",
+        arabic: "الكنيسة المعلقة",
+        arabicRoman: "Al-Kanīsa al-Muʿallaqa",
+        description: "建於 3–4 世紀的科普特東正教教堂，懸建於古羅馬碉堡（巴比倫要塞）的南門之上，因此得名「懸空」。是開羅最古老的教堂之一，內部有 110 幅聖像畫與 13 根代表耶穌和十二門徒的柱子。教堂位於科普特區（Old Cairo），周邊還有科普特博物館可順道參觀。",
+        photoTips: "🔥 必拍：上午陽光透過彩繪玻璃灑在地面的彩色光斑，拿手機貼地拍超夢幻。古老的木造講壇與聖像畫也值得特寫。｜🤳 趣味構圖：站在入口階梯回望，利用階梯延伸感拍出縱深。｜👥 團體照：教堂前庭院空間較大，以古老石牆為背景。",
+      },
+      {
+        zh: "哈里里市集",
+        en: "Khan El-Khalili Bazaar",
+        arabic: "خان الخليلي",
+        arabicRoman: "Khān al-Khalīlī",
+        description: "建於 1382 年的傳統市集，是中東現存最古老的市集之一。迷宮般的巷弄裡販售銅器、香料、手工燈飾、紙莎草畫、珠寶與各式紀念品。別忘了在百年老咖啡館 El Fishawi 喝杯薄荷茶或土耳其咖啡。購物記得殺價，通常從開價的 30–50% 開始談。",
+        photoTips: "🔥 必拍：黃昏燈籠全部亮起的巷弄——滿天手工銅燈掛在頭頂，怎麼拍都美。Bab al-Ghuri 拱門是經典打卡點。｜🤳 趣味構圖：找一家銅燈飾店，站在燈海中間拍，光影交錯超上鏡。也可以拍手捧香料的特寫。｜👥 團體照：El Fishawi 百年咖啡館門口，手持薄荷茶合影。⚠️ 拍當地人前先問一聲，給 10 EGP 小費。",
+      },
+    ],
+    meals: { lunch: "當地餐廳", dinner: "當地餐廳" },
+    hotel: "DOU DOU HOTEL",
+  },
+  {
+    day: 2,
+    date: "04/03 (五)",
+    title: "黑白沙漠探險",
+    subtitle: "奇幻地貌 & 星空露營",
+    departureTime: "07:00 出發",
+    attractions: [
+      {
+        zh: "黑色沙漠",
+        en: "Black Desert",
+        arabic: "الصحراء السوداء",
+        arabicRoman: "Aṣ-Ṣaḥrāʾ as-Sawdāʾ",
+        description: "火山玄武岩碎屑覆蓋的黑色山丘群，與周圍金黃沙漠形成強烈對比。可攀登小山丘（約 50 公尺高）俯瞰全景。位於巴哈利亞綠洲與法拉夫拉綠洲之間。",
+        photoTips: "🔥 必拍：黑色山丘與金黃沙漠的強烈色彩對比，日落時整片被染成暗金色。｜🤳 趣味構圖：爬上小山丘頂端張開雙手，請同伴從下方拍剪影——人在天際線上超帥。｜👥 團體照：山丘腳下平地，大家面對鏡頭跳起來抓拍。",
+      },
+      {
+        zh: "白色沙漠",
+        en: "White Desert",
+        arabic: "الصحراء البيضاء",
+        arabicRoman: "Aṣ-Ṣaḥrāʾ al-Bayḍāʾ",
+        description: "石灰岩經數百萬年風蝕，形成蘑菇狀、兔子狀、雞形等超現實的白色奇岩。是埃及最著名的自然奇景之一，被列為國家公園保護區。夜晚零光害，銀河清晰可見，是絕佳的觀星地點。",
+        photoTips: "🔥 必拍：蘑菇岩和兔子岩是白沙漠招牌，日落時被染成金橘色最夢幻。夜晚手機開夜景模式拍銀河（放在石頭上穩定）。｜🤳 趣味構圖：站在蘑菇岩旁邊比大小，或假裝用手「托住」蘑菇岩頂。｜👥 團體照：營火旁大家圍坐，手機夜景模式長曝拍星空人像。",
+      },
+      {
+        zh: "黃色沙漠",
+        en: "Yellow Desert",
+        description: "金黃色沙丘綿延起伏，呈現最經典的撒哈拉沙漠風貌。柔軟細沙在不同光線下會呈現金色到橘紅色的變化。",
+        photoTips: "🔥 必拍：日落時金黃沙丘被夕陽染成橘紅，手機直接拍就很美。｜🤳 趣味構圖：站在沙丘稜線上拍剪影，雙手張開超經典。也可以拍沙丘上的腳印延伸消失。｜👥 團體照：大家在沙丘頂端一字排開，以夕陽為背景。",
+      },
+      {
+        zh: "水晶山",
+        en: "Crystal Mountain",
+        arabic: "جبل البلور",
+        arabicRoman: "Jabal al-Billūr",
+        description: "整座山丘（約 6 公尺高）由石英和方解石水晶構成，在陽光下閃閃發光。位於黑白沙漠之間的公路旁，停留約 15–30 分鐘即可。請勿撿拾水晶帶走，這是受保護的自然景觀。",
+        photoTips: "🔥 必拍：陽光下水晶閃閃發光，手機貼近用微距模式拍水晶特寫。｜🤳 趣味構圖：蹲在水晶岩旁邊，手掌攤開放在水晶旁拍對比照，折射的光點很夢幻。｜👥 團體照：山丘前方空地，快拍快走（停留約 15 分鐘）。",
+      },
+    ],
+    meals: { breakfast: "飯店", lunch: "沙漠野餐", dinner: "沙漠營火晚餐" },
+    hotel: "黑白沙漠星空飯店 Sky Camp",
+    details: ["車程約 3.5 小時", "沙漠吉普車探險", "夜晚銀河星空壯觀"],
+  },
+  {
+    day: 3,
+    date: "04/04 (六)",
+    title: "返回開羅 & 購物",
+    subtitle: "購物中心自由逛街",
+    departureTime: "09:00 出發",
+    attractions: [
+      { zh: "乘車返回開羅", en: "Drive back to Cairo", isActivity: true },
+      { zh: "購物中心逛街", en: "Shopping Mall", isActivity: true },
+    ],
+    meals: { breakfast: "沙漠營地", lunch: "當地餐廳" },
+    hotel: "Hilton Cairo Grand Nile",
+    details: ["旅行社會給埃鎊現金，請自行購買當天晚餐"],
+  },
+  {
+    day: 4,
+    date: "04/05 (日)",
+    title: "博物館 & 吉薩金字塔",
+    subtitle: "世界七大奇蹟之一",
+    departureTime: "09:00 出發",
+    attractions: [
+      {
+        zh: "新埃及博物館",
+        en: "Grand Egyptian Museum (GEM)",
+        arabic: "المتحف المصري الكبير",
+        arabicRoman: "Al-Matḥaf al-Miṣrī al-Kabīr",
+        description: "2025 年 11 月正式開幕的世界最大考古博物館，佔地 50 萬平方公尺，收藏超過 10 萬件文物。鎮館之寶為圖坦卡門陵墓的全部 5,000 多件寶藏（首次完整展出）。建議停留 3–4 小時，早上開門時入場人潮最少。",
+        photoTips: "🔥 必拍：大廳 11 公尺高的拉美西斯二世巨像，手機仰拍就超震撼。圖坦卡門黃金面具是鎮館之寶。⚠️ 圖坦卡門區只能手機拍（禁相機），全館禁閃光、禁自拍桿。｜🤳 趣味構圖：在大門口巨型階梯上回望，遠方剛好能看到金字塔——博物館+金字塔同框超值得。｜👥 團體照：入口廣場面向金字塔方向，一次拍到現代建築與古代奇蹟。",
+      },
+      {
+        zh: "吉薩金字塔群",
+        en: "Giza Pyramids Complex",
+        arabic: "أهرامات الجيزة",
+        arabicRoman: "Ahrāmāt al-Jīzah",
+        description: "古代世界七大奇蹟中唯一現存者。包含胡夫大金字塔（高 146 公尺，建於約公元前 2560 年）、卡夫拉金字塔與孟卡拉金字塔。胡夫大金字塔由約 230 萬塊石灰岩堆砌而成，每塊重約 2.5 噸。可額外付費進入金字塔內部（通道狹窄悶熱，有幽閉恐懼者慎入）。",
+        photoTips: "🔥 必拍：全景台（Panoramic Point）三座金字塔完美排列，手機全景模式一次收齊。｜🤳 趣味構圖：經典「手指捏住金字塔尖」或「手掌托住金字塔」的錯位照——訣竅是一人站遠處、一人近拍，多試幾次角度。也可以拍「親吻金字塔」。｜👥 團體照：全景台空間大，全團排開帶入三塔背景。⚠️ 避開正午超曬。",
+      },
+      {
+        zh: "騎駱駝體驗",
+        en: "Camel Ride",
+        description: "在金字塔前騎乘駱駝是埃及最經典的體驗之一。行程約 20–30 分鐘，會繞行金字塔群。建議事先與駱駝主人談好價格和時間，避免事後爭議。",
+        photoTips: "🔥 必拍：騎在駱駝上回頭看金字塔那一瞬間！請同伴從側面稍低角度拍，帶入駱駝全身+金字塔。｜🤳 趣味構圖：假裝自己是法老出巡，目視前方嚴肅表情配上駱駝+沙漠背景。也可以拍駱駝的大臉特寫（牠們很上鏡）。｜👥 團體照：多人並排騎駱駝的側面照，金字塔在遠方，超壯觀。",
+      },
+      {
+        zh: "人面獅身像",
+        en: "Great Sphinx of Giza",
+        arabic: "أبو الهول",
+        arabicRoman: "Abū al-Hawl",
+        description: "獅身人面像，長 73 公尺、高 20 公尺，已守護金字塔超過 4,500 年。面部據信以卡夫拉法老為原型雕刻。前方有一大片沙地觀景區，是最佳拍照位置。",
+        photoTips: "🔥 必拍：側面拍可同時帶入獅身人面像+後方金字塔，構圖最經典。｜🤳 趣味構圖：「親吻獅身人面像」錯位照超熱門——站在觀景台右側特定角度，嘟嘴對準獅身人面像的嘴。也可以拍「摸牠下巴」的角度。｜👥 團體照：觀景台前方排開，獅身人面像完整入鏡。",
+      },
+    ],
+    meals: { breakfast: "飯店", lunch: "當地餐廳", dinner: "當地餐廳" },
+    hotel: "Hilton Cairo Grand Nile",
+  },
+  {
+    day: 5,
+    date: "04/06 (一)",
+    title: "飛往阿斯旺",
+    subtitle: "菲萊神廟、風帆船、努比亞村",
+    departureTime: "早班機",
+    attractions: [
+      { zh: "搭乘國內線飛往阿斯旺", en: "Domestic flight to Aswan", isActivity: true },
+      {
+        zh: "菲萊神廟（伊西斯神殿）",
+        en: "Philae Temple (Temple of Isis)",
+        arabic: "معبد فيلة",
+        arabicRoman: "Maʿbad Fīla",
+        description: "供奉女神伊西斯的神殿，原位於菲萊島，因阿斯旺大壩蓄水面臨淹沒危機，1960–80 年代由 UNESCO 主導整座遷移至阿吉勒基亞島。搭摩托船登島，航程約 10 分鐘。神殿融合古埃及、希臘、羅馬建築風格，浮雕保存完好。",
+        photoTips: "🔥 必拍：搭摩托船靠近時從船上拍神殿全景——水面倒影是菲萊獨有的畫面！下午斜光最能拍出浮雕的立體感。｜🤳 趣味構圖：走進巨柱廊，利用柱子排列的延伸感拍出「時空隧道」效果。站在柱子之間探頭也很有趣。｜👥 團體照：第一塔門前面空間大，全團可以輕鬆同框。",
+      },
+      {
+        zh: "尼羅河風帆船 Felucca",
+        en: "Felucca Sail on the Nile",
+        arabic: "فلوكة",
+        arabicRoman: "Falūka",
+        description: "搭乘傳統三角帆船悠遊尼羅河，完全依靠風力航行，是阿斯旺最浪漫的體驗。可欣賞沿岸沙丘、棕櫚樹、努比亞村落與夕陽。航程約 1–2 小時。",
+        photoTips: "🔥 必拍：夕陽下三角帆船的剪影，是尼羅河最經典的畫面。可以拍其他帆船在遠方的剪影。｜🤳 趣味構圖：坐在船頭腳伸出船邊，以三角帆+夕陽為背景拍出度假感。或躺在船上仰拍帆布+天空。｜👥 團體照：全團坐船上以尼羅河+夕陽為背景。⚠️ 船會搖，手機掛繩很重要！",
+      },
+      {
+        zh: "努比亞村落",
+        en: "Nubian Village",
+        arabic: "القرية النوبية",
+        arabicRoman: "Al-Qaryah al-Nūbiyah",
+        description: "搭摩托船前往阿斯旺西岸的努比亞傳統村落。色彩繽紛的房屋牆面塗滿藍、黃、粉紅色彩，是努比亞文化的特色。可與村民養的小鱷魚合照、品嚐道地努比亞茶（Karkade 洛神花茶）、選購手工藝品。",
+        photoTips: "🔥 必拍：彩色房屋牆面怎麼拍都像調過色，黃昏暖光下更飽和。和小鱷魚合照是努比亞限定！｜🤳 趣味構圖：找一面亮藍色或亮黃色牆面，穿對比色衣服站在前面超搶眼。門口的彩繪也值得特寫。｜👥 團體照：找一面大面積彩色牆排開，8 個人剛好。⚠️ 拍村民前先問，給 10–20 EGP。",
+      },
+    ],
+    meals: { breakfast: "飯店", lunch: "郵輪", dinner: "郵輪" },
+    hotel: "尼羅河郵輪 EL MAHROUSA（標準船型）",
+    details: ["登上尼羅河郵輪 EL MAHROUSA", "開始 3 晚郵輪之旅"],
+  },
+  {
+    day: 6,
+    date: "04/07 (二)",
+    title: "阿布辛貝 & 康翁波神廟",
+    subtitle: "拉美西斯二世的偉大傑作",
+    departureTime: "04:00 出發",
+    attractions: [
+      {
+        zh: "阿布辛貝大神殿",
+        en: "Great Temple of Abu Simbel",
+        arabic: "معبد أبو سمبل",
+        arabicRoman: "Maʿbad Abū Simbel",
+        description: "拉美西斯二世於公元前 1264 年下令建造的巨型岩窟神殿。門口四座高 20 公尺的法老坐像極為壯觀。每年 2/22 和 10/22 太陽光會直射神殿最內部的聖所（太陽節）。同樣因阿斯旺大壩而由 UNESCO 主導遷移，是人類史上最偉大的考古搬遷工程之一。",
+        photoTips: "🔥 必拍：四座 20 公尺高的法老坐像，站在腳邊拍才知道有多巨大。清晨到的話納瑟湖方向有柔光。｜🤳 趣味構圖：模仿法老的姿勢（雙手放膝蓋、正襟危坐）站在巨像旁邊拍對比。也可以拍「靠在法老腳趾上」。｜👥 團體照：神殿正面廣場，早到搶拍避開大批遊輪團。⚠️ 禁閃光燈。",
+      },
+      {
+        zh: "阿布辛貝小神殿（奈菲爾塔莉神殿）",
+        en: "Small Temple of Abu Simbel (Temple of Nefertari)",
+        arabic: "معبد أبو سمبل الصغير",
+        arabicRoman: "Maʿbad Abū Simbel aṣ-Ṣaghīr",
+        description: "拉美西斯二世為愛妻奈菲爾塔莉所建，是古埃及極少數獻給王后的神殿。門口六座立像中有兩座是奈菲爾塔莉，且與法老等高——這在古埃及是前所未見的榮譽。",
+        photoTips: "🔥 必拍：退後到能同時拍到大小神殿的距離，兩座同框很有氣勢。｜🤳 趣味構圖：站在奈菲爾塔莉立像旁邊比美，她可是古埃及最美的王后。｜👥 團體照：正面較窄，站兩排或 V 字型排列。",
+      },
+      {
+        zh: "康翁波神廟（鱷魚神殿）",
+        en: "Kom Ombo Temple",
+        arabic: "معبد كوم أمبو",
+        arabicRoman: "Maʿbad Kōm Ombō",
+        description: "世界上獨一無二的雙神殿，左右完全對稱，同時供奉鱷魚神索貝克（Sobek）與鷹頭神荷魯斯（Horus）。建於托勒密王朝（約公元前 180 年）。附設的鱷魚博物館展出數十具鱷魚木乃伊。神殿牆上還刻有古代醫療器具圖案，被認為是世界上最早的「醫學教科書」之一。",
+        photoTips: "🔥 必拍：鱷魚博物館裡的鱷魚木乃伊超獵奇必拍。牆上的古代醫療器具浮雕也很特別。｜🤳 趣味構圖：走到雙柱廊中間正中央，利用完美對稱構圖拍出一點不到的延伸感。｜👥 團體照：神殿正面台階，如果是日落時段砂岩會變金色，背景超美。",
+      },
+    ],
+    meals: { breakfast: "郵輪（打包車上享用）", lunch: "郵輪", dinner: "郵輪" },
+    hotel: "尼羅河郵輪 EL MAHROUSA（標準船型）",
+    details: [
+      "清晨出發前往阿布辛貝（車程約 3.5 小時）",
+      "回阿斯旺搭郵輪午餐後參觀康翁波神廟",
+    ],
+  },
+  {
+    day: 7,
+    date: "04/08 (三)",
+    title: "艾德福神殿 & 盧克索神殿",
+    subtitle: "馬車遊覽 & 夜訪盧克索",
+    departureTime: "09:00 出發",
+    attractions: [
+      {
+        zh: "艾德福神殿（荷魯斯神殿）",
+        en: "Edfu Temple (Temple of Horus)",
+        arabic: "معبد إدفو",
+        arabicRoman: "Maʿbad Idfū",
+        description: "全埃及保存最完整的古神殿，建於托勒密三世時期（公元前 237 年），歷時 180 年完工。供奉鷹頭神荷魯斯，36 公尺高的第一塔門是全埃及第二大。牆上刻有荷魯斯與賽特（Set）的戰鬥神話完整故事。搭馬車從碼頭前往神殿，車程約 10 分鐘。",
+        photoTips: "🔥 必拍：入口處的巨型荷魯斯黑色鷹像，是全埃及最上鏡的雕像之一。大廳抬頭拍天花板殘存的古老彩繪。⚠️ 禁閃光燈。｜🤳 趣味構圖：站在荷魯斯鷹像旁邊模仿牠的站姿（雙手貼身、挺胸），超好笑又有紀念價值。｜👥 團體照：36 公尺高的第一塔門前，全團在巨牆下顯得很渺小。",
+      },
+      { zh: "郵輪駛往盧克索", en: "Cruise sails to Luxor", isActivity: true },
+      {
+        zh: "盧克索神殿（夜間參觀）",
+        en: "Luxor Temple (Night Visit)",
+        arabic: "معبد الأقصر",
+        arabicRoman: "Maʿbad al-Aqṣar",
+        description: "建於公元前 1400 年的阿蒙霍特普三世時期，後由拉美西斯二世擴建。入口處的拉美西斯二世坐像與方尖碑（另一座現存於巴黎協和廣場）是標誌性景觀。2.7 公里長的獅身人面大道連接至卡納克神殿。夜間打燈後金色砂岩在暗夜中閃耀，是盧克索最壯觀的夜景。",
+        photoTips: "🔥 必拍：夜間打燈是盧克索神殿的精華！暖色光讓砂岩變成金色。最推黃昏天色從藍變紫那一刻＋打燈的組合。獅身人面大道也必拍。｜🤳 趣味構圖：站在柱廊中間，利用重複柱子的透視感拍出「無盡延伸」。或站在拉美西斯坐像腳邊對比大小。｜👥 團體照：獅身人面大道入口處兩排石像之間，超有儀式感。",
+      },
+    ],
+    meals: { breakfast: "郵輪", lunch: "郵輪", dinner: "郵輪" },
+    hotel: "尼羅河郵輪 EL MAHROUSA（標準船型）",
+    details: ["搭馬車前往艾德福神殿", "晚上參觀盧克索神殿"],
+  },
+  {
+    day: 8,
+    date: "04/09 (四)",
+    title: "盧克索西岸 & 飛回開羅",
+    subtitle: "帝王谷、孟農神像、卡納爾神殿",
+    departureTime: "09:00 出發",
+    attractions: [
+      {
+        zh: "熱氣球日出（自費）",
+        en: "Hot Air Balloon Sunrise (optional)",
+        description: "清晨搭乘熱氣球升空至 300 公尺高空，俯瞰尼羅河西岸全景——帝王谷、哈乏謝普蘇特女王神殿、孟農神像與翠綠農田盡收眼底。飛行時間約 45 分鐘，含接送共約 3–4 小時。不搭乘的旅客可在飯店休息。天候不佳可能取消。",
+        photoTips: "🔥 必拍：日出時其他氣球漂浮在金色天空中的畫面，手機隨便拍都是桌布等級。往下俯拍帝王谷的山脈紋理和翠綠農田也超震撼。｜🤳 趣味構圖：火焰噴射瞬間連拍，火光+天空+氣球布超帥。伸手做「觸摸太陽」的姿勢。｜👥 團體照：在吊籃裡擠一起以全景為背景。⚠️ 高空風大，手機一定要掛繩！用連拍模式。",
+      },
+      {
+        zh: "帝王谷",
+        en: "Valley of the Kings",
+        arabic: "وادي الملوك",
+        arabicRoman: "Wādī al-Mulūk",
+        description: "古埃及新王國時期（公元前 1539–1075 年）的法老陵墓群，藏於尼羅河西岸的山谷中。目前已發現 63 座墓穴，其中最著名的是圖坦卡門墓（KV62，需額外購票）。基本門票可參觀 3 座墓穴，每座墓內都有精美的壁畫。建議早上 7–8 點抵達避開大量遊輪團客（約 10 點到達）。",
+        photoTips: "🔥 必拍：墓穴內的彩色壁畫保存驚人，用手機廣角模式拍天花板整面壁畫。山谷外荒涼的月球地貌也很值得拍。⚠️ 全面禁閃光燈、禁腳架。｜🤳 趣味構圖：站在墓穴入口處回望，一半陽光一半陰影的光影對比很戲劇性。｜👥 團體照：遊客中心前方有山谷全景，適合拍到背後整片荒山。",
+      },
+      {
+        zh: "孟農神像",
+        en: "Colossi of Memnon",
+        arabic: "تمثالا ممنون",
+        arabicRoman: "Timthālā Mamnūn",
+        description: "兩座高 18 公尺、重約 720 噸的阿蒙霍特普三世石像，矗立於尼羅河西岸農田中。原為其祭殿的入口守衛，祭殿已毀但雙像屹立 3,400 年。免費開放參觀，通常停留 20–30 分鐘。古希臘人相信北側石像會在黎明「唱歌」（因熱脹冷縮發出聲音）。",
+        photoTips: "🔥 必拍：手機蹲低仰拍，18 公尺的石像在畫面中頂天立地，壓迫感十足。｜🤳 趣味構圖：站在石像腳邊張開手臂，對比人和巨像的大小差距。或假裝和石像「擊掌」。｜👥 團體照：站在兩座石像正中間，左右各一座巨像夾道，超有氣勢。",
+      },
+      {
+        zh: "卡納爾神殿",
+        en: "Karnak Temple Complex",
+        arabic: "معبد الكرنك",
+        arabicRoman: "Maʿbad al-Karnāk",
+        description: "古埃及最大的神殿群，佔地超過 200 英畝，歷經約 30 位法老、2,000 年持續擴建（公元前 2055–100 年）。最震撼的是大柱廳（Great Hypostyle Hall）——134 根巨柱高達 23 公尺，上面刻滿象形文字。神殿旁的聖湖可拍到柱廊與方尖碑的水面倒影。建議停留 2–3 小時。",
+        photoTips: "🔥 必拍：大柱廳 134 根巨柱是全埃及最震撼的畫面，手機超廣角模式拍出滿滿柱海。聖湖邊拍柱廊+方尖碑的水面倒影也超美。｜🤳 趣味構圖：站在一根巨柱旁邊，手環抱柱子——柱子直徑比人還寬！或站在柱列中間拍出無盡延伸的透視感。｜👥 團體照：第一塔門前或聖湖畔，空間大適合大合照。",
+      },
+      { zh: "搭機飛回開羅", en: "Flight back to Cairo", isActivity: true },
+    ],
+    meals: { breakfast: "郵輪", lunch: "當地餐廳" },
+    hotel: "Hilton Cairo Grand Nile",
+    details: [
+      "自費項目：熱氣球（不搭乘的旅客可在飯店休息）",
+      "下午前往機場搭乘開羅航班",
+    ],
+  },
+  {
+    day: 9,
+    date: "04/10 (五)",
+    title: "自由活動 & 返程",
+    subtitle: "帶著滿滿回憶回家",
+    departureTime: "自由活動",
+    attractions: [
+      { zh: "早餐後自由活動", en: "Free time after breakfast", isActivity: true },
+      { zh: "含專車及午餐（不含導遊，有助理陪同）", en: "Car & lunch included, assistant provided (no guide)", isActivity: true },
+      { zh: "前往機場搭乘國際航班回國", en: "Transfer to airport for international flight", isActivity: true },
+    ],
+    meals: { breakfast: "飯店", lunch: "含午餐" },
+    hotel: "—",
+    details: ["包含車和午餐", "不含導遊，會安排助理"],
+  },
+];
+
+export const inclusions = [
+  "開羅住宿（4 晚）— DOU DOU HOTEL 1 晚 + Hilton Cairo Grand Nile 3 晚",
+  "沙漠星空飯店住宿（1 晚）",
+  "尼羅河郵輪 EL MAHROUSA（3 晚，標準船型）",
+  "埃及內陸機票（開羅↔阿斯旺、盧克索↔開羅）",
+  "全程交通車費（按行程表）",
+  "所有景點門票",
+  "騎駱駝費用 & 駱駝小費",
+  "每日三餐（最後一天不含晚餐）——午、晚餐安排埃及當地風味餐或中餐",
+  "每天每人一瓶水",
+  "中文導遊",
+  "導遊小費",
+  "司機小費",
+];
+
+export const exclusions = [
+  "國際機票",
+  "落地簽證費 USD $25（現金）",
+  "熱氣球、出海、浮潛等自費項目",
+];
+
+export const importantNotes = [
+  {
+    category: "簽證",
+    items: [
+      "埃及落地簽，需準備：護照正本（效期 6 個月以上）、2 吋照片 2 張、簽證費 USD $25",
+    ],
+  },
+  {
+    category: "上海轉機",
+    items: [
+      "台灣護照在上海轉機，即使不入境也需持有效台胞證（卡式，效期 5 年）",
+      "建議出發前在台灣先辦好卡式台胞證，勿依賴機場辦一次性落地簽（排隊久、有被拒風險）",
+      "聯程機票行李可直掛，不需提領再重掛（建議報到時與航空公司確認）",
+    ],
+  },
+  {
+    category: "貨幣",
+    items: [
+      "埃及鎊 (EGP)，建議攜帶美金現鈔在當地兌換",
+      "大部分觀光區可刷卡，但市集建議用現金",
+    ],
+  },
+  {
+    category: "天氣",
+    items: [
+      "4 月氣溫約 20-35°C，日夜溫差大",
+      "沙漠地區夜晚偏涼，建議攜帶薄外套",
+      "防曬用品必備：帽子、太陽眼鏡、防曬乳",
+    ],
+  },
+  {
+    category: "穿著",
+    items: [
+      "參觀清真寺需著長袖長褲，女性需披頭巾",
+      "建議穿舒適好走的鞋子",
+      "沙漠行程建議穿長褲防風沙",
+    ],
+  },
+  {
+    category: "健康",
+    items: [
+      "建議攜帶腸胃藥、防蚊液",
+      "飲用水請購買瓶裝水",
+      "建議投保海外旅遊平安險",
+    ],
+  },
+  {
+    category: "行李",
+    items: [
+      "埃及內陸航班行李限制：托運 23 KG + 手提 7 KG 小包",
+    ],
+  },
+  {
+    category: "行李遺失",
+    items: [
+      "若行李在機場遺失或未抵達開羅，請在機場行李服務櫃台填寫申報單，並留下以下聯絡資訊：",
+      "📍 地址：Giza, Hadiek October, Compound Golf Residence, Building No. 28",
+      "📞 電話：+20 100 096 4509",
+    ],
+  },
+  {
+    category: "小費 Baksheesh",
+    items: [
+      "小費（baksheesh）是埃及文化重要的一部分，建議用埃及鎊（EGP）支付，避免使用外幣硬幣或 1 美元紙鈔（當地無法兌換）",
+      "✅ 導遊、司機、駱駝小費已含在團費中，不需另付",
+      "郵輪服務人員：約 USD $10/人/晚（可於下船時統一給予）",
+      "飯店行李員：10–20 EGP/件；房務清潔：20–50 EGP/晚（放枕頭上）",
+      "餐廳：帳單如已含 10–15% 服務費，可再加 5–10% 現金；小餐廳湊整數即可",
+      "廁所管理員：5–10 EGP",
+      "建議出發前多準備小面額埃及鎊（5、10、20 EGP），方便隨手給小費",
+    ],
+  },
+  {
+    category: "電壓與插座",
+    items: [
+      "埃及使用 Type C 歐規雙圓孔插座，電壓 220V / 50Hz",
+      "台灣電器（110V）需攜帶轉接頭，建議帶萬用轉接頭",
+      "手機充電器通常支援 100–240V 不需變壓器，但請確認充電器上的標示",
+    ],
+  },
+];
+
+export const emergencyContacts = [
+  { category: "埃及緊急電話", items: [
+    { label: "報警", number: "122" },
+    { label: "救護車", number: "123" },
+    { label: "消防", number: "180" },
+    { label: "觀光警察", number: "126" },
+  ]},
+  { category: "台灣駐外代表處（兼理埃及）", items: [
+    { label: "駐約旦臺北經濟文化辦事處", number: "+(962-6) 554-4426" },
+    { label: "急難救助手機", number: "+962-79-555-2605" },
+    { label: "Email", number: "jor@mofa.gov.tw" },
+  ]},
+  { category: "旅行社當地聯絡", items: [
+    { label: "埃及豆豆旅行", number: "+20 100 096 4509" },
+    { label: "Email", number: "Mohamed@egyptdoudou.com" },
+  ]},
+  { category: "外交部旅外救助", items: [
+    { label: "全球免付費專線", number: "0800-085-095" },
+    { label: "海外付費專線", number: "+886-800-085-095" },
+  ]},
+];
+
+export const arabicPhrases = [
+  { zh: "你好", arabic: "السلام عليكم", roman: "As-salamu alaikum", note: "正式問候" },
+  { zh: "你好（簡單）", arabic: "أهلاً", roman: "Ahlan", note: "日常打招呼" },
+  { zh: "謝謝", arabic: "شكراً", roman: "Shukran", note: "最常用的一句" },
+  { zh: "不用謝", arabic: "عفواً", roman: "Afwan", note: "" },
+  { zh: "對不起", arabic: "آسف", roman: "Asif", note: "" },
+  { zh: "是 / 好的", arabic: "أيوه", roman: "Aywa", note: "埃及口語" },
+  { zh: "不 / 不要", arabic: "لأ", roman: "La'", note: "拒絕推銷用" },
+  { zh: "多少錢？", arabic: "بكام؟", roman: "Bikam?", note: "購物必備" },
+  { zh: "太貴了！", arabic: "غالي أوي!", roman: "Ghali awi!", note: "殺價起手式" },
+  { zh: "算便宜一點", arabic: "نقّص شوية", roman: "Naqis shwaya", note: "接著殺價" },
+  { zh: "好吃！", arabic: "لذيذ!", roman: "Lazeez!", note: "讚美食物" },
+  { zh: "水", arabic: "مية", roman: "Mayya", note: "埃及口語" },
+  { zh: "洗手間在哪？", arabic: "فين الحمام؟", roman: "Fein el-hammam?", note: "" },
+  { zh: "救命！", arabic: "النجدة!", roman: "El-nagda!", note: "緊急時用" },
+  { zh: "好美！", arabic: "جميل أوي!", roman: "Gameel awi!", note: "讚美景點" },
+];
