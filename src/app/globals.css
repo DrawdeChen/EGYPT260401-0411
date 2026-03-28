@@ -156,6 +156,19 @@ html {
   animation: fadeInUp 0.6s ease-out forwards;
 }
 
+/* Egyptian geometric border — lotus & triangle repeating pattern */
+.egyptian-border {
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg width='48' height='24' viewBox='0 0 48 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C9A96E'%3E%3C!-- top line --%3E%3Cline x1='0' y1='2' x2='48' y2='2' stroke-width='0.5' opacity='0.3'/%3E%3C!-- lotus/triangle pattern --%3E%3Cpath d='M0 22 L8 6 L16 22' stroke-width='0.8' opacity='0.2'/%3E%3Cpath d='M16 22 L24 6 L32 22' stroke-width='0.8' opacity='0.2'/%3E%3Cpath d='M32 22 L40 6 L48 22' stroke-width='0.8' opacity='0.2'/%3E%3C!-- inner diamonds --%3E%3Cpath d='M8 16 L12 8 L16 16 L12 20 Z' stroke-width='0.5' opacity='0.15'/%3E%3Cpath d='M24 16 L28 8 L32 16 L28 20 Z' stroke-width='0.5' opacity='0.15'/%3E%3Cpath d='M40 16 L44 8 L48 16 L44 20 Z' stroke-width='0.5' opacity='0.15'/%3E%3C!-- bottom line --%3E%3Cline x1='0' y1='22' x2='48' y2='22' stroke-width='0.5' opacity='0.3'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
+}
+
+/* Egyptian geometric body pattern for Day Cards */
+.egyptian-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C9A96E' stroke-width='0.8' opacity='0.15'%3E%3Cpath d='M20 0 L40 20 L20 40 L0 20 Z'/%3E%3Cpath d='M20 8 L32 20 L20 32 L8 20 Z'/%3E%3Cpath d='M20 16 L24 20 L20 24 L16 20 Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
 /* Navbar glass effect */
 .nav-glass {
   background: rgba(12, 27, 51, 0.85);

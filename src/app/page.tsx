@@ -13,6 +13,8 @@ import {
   importantNotes,
   emergencyContacts,
   arabicPhrases,
+  souvenirs,
+  bargainingTips,
   type FlightLeg,
 } from "@/data/tour";
 
@@ -37,7 +39,7 @@ function DualClock() {
     });
 
   return (
-    <div className="flex items-center gap-3 rounded-full bg-white/5 px-2.5 py-1 text-[11px] text-sand/60">
+    <div className="flex items-center gap-2 rounded-full bg-white/5 px-2 py-1 text-[10px] text-sand/60 md:gap-3 md:px-2.5 md:text-[11px]">
       <span>🇹🇼 {fmt("Asia/Taipei")}</span>
       <span className="text-gold/30">|</span>
       <span>🇪🇬 {fmt("Africa/Cairo")}</span>
@@ -53,15 +55,16 @@ function Navbar() {
     { href: "#flights", label: "航班資訊" },
     { href: "#hotels", label: "住宿安排" },
     { href: "#pricing", label: "費用說明" },
+    { href: "#currency", label: "匯率換算" },
+    { href: "#shopping", label: "購物攻略" },
     { href: "#notes", label: "行前須知" },
     { href: "#contact", label: "聯絡資訊" },
   ];
 
   return (
     <nav className="nav-glass fixed top-0 right-0 left-0 z-50 border-b border-gold/20">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <a href="#" className="flex items-center gap-2">
-          <span className="text-xl">𓂀</span>
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+        <a href="#" className="flex items-center">
           <span className="font-heading text-lg font-bold text-gold">
             Egypt 2026
           </span>
@@ -80,14 +83,14 @@ function Navbar() {
           ))}
         </div>
 
-        <DualClock />
-
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="text-sand md:hidden"
-          aria-label="Toggle menu"
-        >
+        {/* Right side: clock + mobile toggle */}
+        <div className="flex items-center gap-3">
+          <DualClock />
+          <button
+            onClick={() => setOpen(!open)}
+            className="text-sand md:hidden"
+            aria-label="Toggle menu"
+          >
           <svg
             className="h-6 w-6"
             fill="none"
@@ -111,6 +114,7 @@ function Navbar() {
             )}
           </svg>
         </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -251,10 +255,7 @@ function Hero() {
       </div>
 
       <div className="relative z-10 max-w-3xl">
-        {/* Egyptian eye symbol */}
-        <div className="mb-6 text-5xl">𓂀</div>
-
-        <p className="mb-4 text-xs font-medium tracking-[0.2em] text-gold/80 uppercase md:text-sm md:tracking-[0.3em]">
+        <p className="mt-10 mb-4 text-xs font-medium tracking-[0.2em] text-gold/80 uppercase md:mt-0 md:text-sm md:tracking-[0.3em]">
           {tourInfo.agency}
         </p>
 
@@ -266,7 +267,7 @@ function Hero() {
           {tourInfo.subtitle}
         </p>
 
-        <div className="wing-divider mb-8 text-gold">𓋹</div>
+        <div className="wing-divider mb-8 text-gold" style={{ fontFamily: "'Noto Sans Egyptian Hieroglyphs', serif" }}>𓋹</div>
 
         <div className="mb-10 flex flex-wrap items-center justify-center gap-6 text-sand/70">
           <span className="flex items-center gap-2">
@@ -390,8 +391,17 @@ function RouteOverview() {
   ];
 
   return (
-    <section className="sand-texture py-16 md:py-24">
-      <div className="mx-auto max-w-6xl px-4">
+    <section className="relative overflow-hidden py-16 md:py-24">
+      {/* Mural background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.07]"
+        style={{ backgroundImage: "url('/mural.jpg')" }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(to bottom, transparent 0%, rgba(245,236,215,0.71) 60%, rgba(245,236,215,0.71) 100%)" }}
+      />
+      <div className="relative mx-auto max-w-6xl px-4">
         <SectionTitle title="行程路線" subtitle="Route Overview" />
 
         {/* Desktop route */}
@@ -459,16 +469,19 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle: string }) 
 /* ───────────── Attraction Item (expandable) ───────────── */
 function AttractionItem({
   attraction,
+  isOpen,
+  onToggle,
 }: {
   attraction: (typeof itinerary)[number]["attractions"][number];
+  isOpen: boolean;
+  onToggle: () => void;
 }) {
-  const [open, setOpen] = useState(false);
   const canExpand = !attraction.isActivity && attraction.description;
 
   return (
     <li className="group">
       <button
-        onClick={() => canExpand && setOpen(!open)}
+        onClick={() => canExpand && onToggle()}
         className={`flex w-full items-start gap-2 text-left text-sm ${
           canExpand
             ? "cursor-pointer hover:text-gold-dark"
@@ -476,7 +489,7 @@ function AttractionItem({
         }`}
       >
         <span className="mt-0.5 shrink-0 text-gold">
-          {canExpand ? (open ? "▾" : "▸") : "·"}
+          {canExpand ? (isOpen ? "▾" : "▸") : "·"}
         </span>
         <span className="flex flex-wrap items-baseline gap-x-2">
           <span className="font-medium text-nile">{attraction.zh}</span>
@@ -487,7 +500,7 @@ function AttractionItem({
       </button>
 
       {/* Expanded content */}
-      {open && canExpand && (
+      {isOpen && canExpand && (
         <div className="ml-5 mt-2 mb-1 overflow-hidden rounded-xl border border-sand-light bg-papyrus/60 px-4 py-3">
           {/* Multi-language names */}
           <div className="mb-3 space-y-1.5">
@@ -506,18 +519,20 @@ function AttractionItem({
               <span className="text-sm text-nile/70">{attraction.en}</span>
             </div>
             {attraction.arabic && (
-              <div className="flex items-center gap-2">
-                <span className="w-10 shrink-0 rounded bg-emerald/10 px-1.5 py-0.5 text-center text-[10px] font-bold text-emerald">
+              <div className="flex items-start gap-2">
+                <span className="mt-1 w-10 shrink-0 rounded bg-emerald/10 px-1.5 py-0.5 text-center text-[10px] font-bold text-emerald">
                   عربي
                 </span>
-                <span className="text-base leading-tight" dir="rtl">
-                  {attraction.arabic}
-                </span>
-                {attraction.arabicRoman && (
-                  <span className="text-xs text-nile/40 italic">
-                    {attraction.arabicRoman}
-                  </span>
-                )}
+                <div>
+                  <p className="text-base leading-tight" dir="rtl">
+                    {attraction.arabic}
+                  </p>
+                  {attraction.arabicRoman && (
+                    <p className="mt-1 text-xs text-nile/40 italic">
+                      {attraction.arabicRoman}
+                    </p>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -553,6 +568,8 @@ function AttractionItem({
 
 /* ───────────── Day Card ───────────── */
 function DayCard({ day }: { day: (typeof itinerary)[number] }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
   const dayColors: Record<number, string> = {
     1: "from-nile-light to-nile",
     2: "from-nile-light to-nile",
@@ -611,7 +628,12 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
         <div className="mb-4">
           <ul className="space-y-2">
             {day.attractions.map((a, i) => (
-              <AttractionItem key={i} attraction={a} />
+              <AttractionItem
+                key={i}
+                attraction={a}
+                isOpen={openIndex === i}
+                onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+              />
             ))}
           </ul>
         </div>
@@ -1021,7 +1043,7 @@ function CurrencyConverter() {
   ];
 
   return (
-    <section className="bg-papyrus py-12 md:py-16">
+    <section id="currency" className="bg-papyrus py-12 md:py-16">
       <div className="mx-auto max-w-md px-4">
         <div className="mb-8 text-center">
           <p className="mb-1 text-xs tracking-[0.2em] text-gold/70 uppercase">
@@ -1066,6 +1088,74 @@ function CurrencyConverter() {
             <span>
               1 USD ≈ {rates.EGP.toFixed(1)} EGP ≈ {rates.TWD.toFixed(1)} TWD
             </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── Shopping Guide ───────────── */
+function ShoppingGuide() {
+  const [openItem, setOpenItem] = useState<number | null>(null);
+
+  return (
+    <section id="shopping" className="bg-white py-16 md:py-24">
+      <div className="mx-auto max-w-5xl px-4">
+        <SectionTitle title="購物攻略" subtitle="Shopping Guide" />
+
+        <div className="grid gap-10 md:grid-cols-2">
+          {/* Souvenirs */}
+          <div>
+            <h3 className="mb-5 flex items-center gap-2 font-heading text-lg font-bold text-nile">
+              🛍️ 必買紀念品 & 伴手禮
+            </h3>
+            <div className="space-y-2">
+              {souvenirs.map((item, i) => (
+                <div
+                  key={i}
+                  className="overflow-hidden rounded-xl border border-sand bg-papyrus/50"
+                >
+                  <button
+                    onClick={() => setOpenItem(openItem === i ? null : i)}
+                    className="flex w-full items-center justify-between px-4 py-3 text-left text-sm"
+                  >
+                    <span className="font-medium text-nile">{item.name}</span>
+                    <span className="ml-2 shrink-0 text-xs text-gold">{item.price}</span>
+                  </button>
+                  {openItem === i && (
+                    <div className="border-t border-sand/60 px-4 py-3 text-xs leading-relaxed text-nile/60">
+                      <p className="mb-1">
+                        <span className="font-bold text-nile/70">哪裡買：</span>{item.where}
+                      </p>
+                      <p>
+                        <span className="font-bold text-nile/70">注意：</span>{item.tip}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bargaining Tips */}
+          <div>
+            <h3 className="mb-5 flex items-center gap-2 font-heading text-lg font-bold text-nile">
+              💰 殺價秘訣
+            </h3>
+            <div className="space-y-3">
+              {bargainingTips.map((tip, i) => (
+                <div key={i} className="rounded-xl border border-sand bg-papyrus/50 px-4 py-3">
+                  <p className="mb-1 text-sm font-bold text-nile">
+                    <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-gold/15 text-xs text-gold-dark">
+                      {i + 1}
+                    </span>
+                    {tip.title}
+                  </p>
+                  <p className="ml-7 text-xs leading-relaxed text-nile/55">{tip.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -1190,20 +1280,20 @@ function ArabicPhrases() {
           {arabicPhrases.map((p, i) => (
             <div
               key={i}
-              className={`flex items-center gap-4 px-5 py-3 ${
+              className={`grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 py-3 ${
                 i !== arabicPhrases.length - 1 ? "border-b border-sand-light" : ""
               }`}
             >
-              <div className="w-24 shrink-0">
+              <div className="min-w-0">
                 <p className="text-sm font-medium text-nile">{p.zh}</p>
                 {p.note && (
                   <p className="text-[10px] text-nile/35">{p.note}</p>
                 )}
               </div>
-              <div className="flex-1 text-right" dir="rtl">
-                <p className="text-lg leading-tight">{p.arabic}</p>
+              <div className="text-center" dir="rtl">
+                <p className="text-base leading-tight">{p.arabic}</p>
               </div>
-              <div className="w-32 shrink-0 text-right">
+              <div className="min-w-0 text-right">
                 <p className="text-xs text-nile/50 italic">{p.roman}</p>
               </div>
             </div>
@@ -1300,7 +1390,7 @@ function Footer() {
           <h2 className="font-heading text-3xl font-bold text-gold">
             聯絡資訊
           </h2>
-          <div className="wing-divider mt-3 text-sm text-gold/40">𓋹</div>
+          <div className="wing-divider mt-3 text-lg text-gold/60" style={{ fontFamily: "'Noto Sans Egyptian Hieroglyphs', serif" }}>𓂀</div>
         </div>
 
         <div className="mb-10 inline-block rounded-2xl border border-gold/20 bg-gold/5 px-8 py-6">
@@ -1342,6 +1432,7 @@ export default function Home() {
       <Accommodations />
       <Pricing />
       <CurrencyConverter />
+      <ShoppingGuide />
       <Notes />
       <EmergencyContacts />
       <ArabicPhrases />

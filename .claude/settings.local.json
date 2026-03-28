@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(curl -s http://localhost:3002)",
-      "Bash(git init:*)"
+      "Bash(git init:*)",
+      "Bash(git commit:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo:*)",
+      "Bash(git push:*)"
     ]
   }
 }
