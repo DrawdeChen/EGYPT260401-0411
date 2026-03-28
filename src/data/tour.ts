@@ -621,19 +621,19 @@ export const emergencyContacts = [
 ];
 
 export const arabicPhrases = [
-  { zh: "你好", arabic: "السلام عليكم", roman: "As-salamu alaikum", note: "正式問候" },
+  { zh: "你好", arabic: "السلام عليكم", roman: "Es-salamu aleiku", note: "正式問候" },
   { zh: "你好（簡單）", arabic: "أهلاً", roman: "Ahlan", note: "日常打招呼" },
   { zh: "謝謝", arabic: "شكراً", roman: "Shukran", note: "最常用的一句" },
   { zh: "不用謝", arabic: "عفواً", roman: "Afwan", note: "" },
-  { zh: "對不起", arabic: "آسف", roman: "Asif", note: "" },
+  { zh: "對不起", arabic: "آسف", roman: "Aasif", note: "" },
   { zh: "是 / 好的", arabic: "أيوه", roman: "Aywa", note: "埃及口語" },
   { zh: "不 / 不要", arabic: "لأ", roman: "La'", note: "拒絕推銷用" },
   { zh: "多少錢？", arabic: "بكام؟", roman: "Bikam?", note: "購物必備" },
   { zh: "太貴了！", arabic: "غالي أوي!", roman: "Ghali awi!", note: "殺價起手式" },
-  { zh: "算便宜一點", arabic: "نقّص شوية", roman: "Naqis shwaya", note: "接著殺價" },
+  { zh: "算便宜一點", arabic: "نقّص شوية", roman: "Naa'es shwaya", note: "接著殺價" },
   { zh: "好吃！", arabic: "لذيذ!", roman: "Lazeez!", note: "讚美食物" },
   { zh: "水", arabic: "مية", roman: "Mayya", note: "埃及口語" },
-  { zh: "洗手間在哪？", arabic: "فين الحمام؟", roman: "Fein el-hammam?", note: "" },
+  { zh: "洗手間在哪？", arabic: "فين الحمام؟", roman: "Fein el-hammaam?", note: "" },
   { zh: "救命！", arabic: "النجدة!", roman: "El-nagda!", note: "緊急時用" },
   { zh: "好美！", arabic: "جميل أوي!", roman: "Gameel awi!", note: "讚美景點" },
 ];
