@@ -628,7 +628,7 @@ export const arabicPhrases = [
   { zh: "對不起", arabic: "آسف", roman: "Aasif", note: "" },
   { zh: "是 / 好的", arabic: "أيوه", roman: "Aywa", note: "埃及口語" },
   { zh: "不 / 不要", arabic: "لأ", roman: "La'", note: "拒絕推銷用" },
-  { zh: "多少錢？", arabic: "بكام؟", roman: "Bikam?", note: "購物必備" },
+  { zh: "多少錢？", arabic: "بكام ده؟", roman: "Bikam da?", note: "指著東西問，da = 這個" },
   { zh: "太貴了！", arabic: "غالي أوي!", roman: "Ghali awi!", note: "殺價起手式" },
   { zh: "算便宜一點", arabic: "نقّص شوية", roman: "Naa'es shwaya", note: "接著殺價" },
   { zh: "好吃！", arabic: "لذيذ!", roman: "Lazeez!", note: "讚美食物" },
