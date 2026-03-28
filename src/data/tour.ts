@@ -636,6 +636,9 @@ export const arabicPhrases = [
   { zh: "洗手間在哪？", arabic: "فين الحمام؟", roman: "Fein el-hammaam?", note: "" },
   { zh: "救命！", arabic: "النجدة!", roman: "El-nagda!", note: "緊急時用" },
   { zh: "好美！", arabic: "جميل أوي!", roman: "Gameel awi!", note: "讚美景點" },
+  { zh: "再見", arabic: "مع السلامة", roman: "Ma'a es-salama", note: "最常用的道別" },
+  { zh: "非常感謝你", arabic: "شكراً جزيلاً", roman: "Shukran gazeelan", note: "比 Shukran 更誠懇" },
+  { zh: "祝福你", arabic: "ربنا يخليك", roman: "Rabbena yikhaleek", note: "願神保佑你" },
 ];
 
 export const souvenirs = [
