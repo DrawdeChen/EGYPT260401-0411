@@ -1280,7 +1280,7 @@ function ArabicPhrases() {
           {arabicPhrases.map((p, i) => (
             <div
               key={i}
-              className={`grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 py-3 ${
+              className={`grid grid-cols-[1fr_auto_auto_1fr] items-center gap-2 px-4 py-3 ${
                 i !== arabicPhrases.length - 1 ? "border-b border-sand-light" : ""
               }`}
             >
@@ -1293,6 +1293,23 @@ function ArabicPhrases() {
               <div className="text-center" dir="rtl">
                 <p className="text-base leading-tight">{p.arabic}</p>
               </div>
+              <button
+                onClick={() => {
+                  try {
+                    const u = new SpeechSynthesisUtterance(p.arabic);
+                    u.lang = "ar";
+                    u.rate = 0.8;
+                    speechSynthesis.cancel();
+                    speechSynthesis.speak(u);
+                  } catch {}
+                }}
+                className="flex h-7 w-7 items-center justify-center rounded-full text-gold/40 transition-colors hover:bg-gold/10 hover:text-gold"
+                aria-label={`播放 ${p.zh}`}
+              >
+                <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
+                </svg>
+              </button>
               <div className="min-w-0 text-right">
                 <p className="text-xs text-nile/50 italic">{p.roman}</p>
               </div>
