@@ -1102,11 +1102,6 @@ function CurrencyConverter() {
       .catch(() => {});
   }, []);
 
-  // initialize EGP/TWD from default USD=1
-  useEffect(() => {
-    handleChange("USD", "1");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rates]);
 
   type Currency = "USD" | "EGP" | "TWD";
 
@@ -1126,9 +1121,9 @@ function CurrencyConverter() {
   };
 
   const currencies: { key: Currency; label: string; flag: string; symbol: string }[] = [
+    { key: "EGP", label: "埃及鎊", flag: "🇪🇬", symbol: "E£" },
     { key: "TWD", label: "新台幣", flag: "🇹🇼", symbol: "NT$" },
     { key: "USD", label: "美金", flag: "🇺🇸", symbol: "$" },
-    { key: "EGP", label: "埃及鎊", flag: "🇪🇬", symbol: "E£" },
   ];
 
   return (
