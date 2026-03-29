@@ -570,12 +570,18 @@ function AttractionItem({
 function DayCard({ day }: { day: (typeof itinerary)[number] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [showHidden, setShowHidden] = useState(false);
+  const [showAlternate, setShowAlternate] = useState(false);
   const longPressTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handlePressStart = () => {
-    if (!day.hiddenAttractions?.length) return;
+    if (!day.hiddenAttractions?.length && !day.alternateVersion) return;
     longPressTimer.current = setTimeout(() => {
-      setShowHidden((v) => !v);
+      if (day.alternateVersion) {
+        setShowAlternate((v) => !v);
+        setOpenIndex(null);
+      } else {
+        setShowHidden((v) => !v);
+      }
     }, 1500);
   };
 
@@ -584,6 +590,25 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
       clearTimeout(longPressTimer.current);
       longPressTimer.current = null;
     }
+  };
+
+  // Use alternate data when toggled
+  const active = showAlternate && day.alternateVersion ? {
+    title: day.alternateVersion.title,
+    subtitle: day.alternateVersion.subtitle,
+    departureTime: day.alternateVersion.departureTime,
+    attractions: day.alternateVersion.attractions,
+    meals: day.alternateVersion.meals,
+    hotel: day.alternateVersion.hotel,
+    details: day.alternateVersion.details,
+  } : {
+    title: day.title,
+    subtitle: day.subtitle,
+    departureTime: day.departureTime,
+    attractions: day.attractions,
+    meals: day.meals,
+    hotel: day.hotel,
+    details: day.details,
   };
 
   const dayColors: Record<number, string> = {
@@ -629,15 +654,15 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
               Day {day.day} — {day.date}
             </span>
             <h3 className="font-heading text-xl font-bold md:text-2xl">
-              {day.title}
+              {active.title}
             </h3>
           </div>
         </div>
         <div className="mt-1 flex flex-wrap items-center gap-x-3">
-          <p className="text-sm opacity-70">{day.subtitle}</p>
-          {day.departureTime && (
+          <p className="text-sm opacity-70">{active.subtitle}</p>
+          {active.departureTime && (
             <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-[11px] font-medium">
-              {day.departureTime}
+              {active.departureTime}
             </span>
           )}
         </div>
@@ -648,7 +673,7 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
         {/* Attractions */}
         <div className="mb-4">
           <ul className="space-y-2">
-            {day.attractions.map((a, i) => (
+            {active.attractions.map((a, i) => (
               <AttractionItem
                 key={i}
                 attraction={a}
@@ -683,30 +708,30 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
 
         {/* Meals & Hotel */}
         <div className="flex flex-wrap gap-4 border-t border-sand-light pt-4 text-xs text-nile/60">
-          {(day.meals.breakfast || day.meals.lunch || day.meals.dinner) && (
+          {(active.meals.breakfast || active.meals.lunch || active.meals.dinner) && (
             <div className="flex items-center gap-1">
               <span>🍽</span>
               {[
-                day.meals.breakfast && `早: ${day.meals.breakfast}`,
-                day.meals.lunch && `午: ${day.meals.lunch}`,
-                day.meals.dinner && `晚: ${day.meals.dinner}`,
+                active.meals.breakfast && `早: ${active.meals.breakfast}`,
+                active.meals.lunch && `午: ${active.meals.lunch}`,
+                active.meals.dinner && `晚: ${active.meals.dinner}`,
               ]
                 .filter(Boolean)
                 .join(" · ")}
             </div>
           )}
-          {day.hotel !== "—" && (
+          {active.hotel !== "—" && (
             <div className="flex items-center gap-1">
               <span>🏨</span>
-              {day.hotel}
+              {active.hotel}
             </div>
           )}
         </div>
 
         {/* Extra details */}
-        {day.details && day.details.length > 0 && (
+        {active.details && active.details.length > 0 && (
           <div className="mt-3 text-xs text-nile/40">
-            {day.details.map((d, i) => (
+            {active.details.map((d, i) => (
               <span key={i}>
                 {i > 0 && " · "}
                 {d}

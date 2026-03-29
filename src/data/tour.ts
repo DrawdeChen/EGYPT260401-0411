@@ -16,6 +16,15 @@ export interface DaySchedule {
   departureTime?: string;
   attractions: Attraction[];
   hiddenAttractions?: Attraction[];
+  alternateVersion?: {
+    title: string;
+    subtitle: string;
+    departureTime?: string;
+    attractions: Attraction[];
+    meals: { breakfast?: string; lunch?: string; dinner?: string };
+    hotel: string;
+    details?: string[];
+  };
   meals: { breakfast?: string; lunch?: string; dinner?: string };
   hotel: string;
   details?: string[];
@@ -269,6 +278,32 @@ export const itinerary: DaySchedule[] = [
         photoTips: "🔥 必拍：陽光下水晶閃閃發光，手機貼近用微距模式拍水晶特寫。｜🤳 趣味構圖：蹲在水晶岩旁邊，手掌攤開放在水晶旁拍對比照，折射的光點很夢幻。｜👥 團體照：山丘前方空地，快拍快走（停留約 15 分鐘）。",
       },
     ],
+    alternateVersion: {
+      title: "法尤姆綠洲探險",
+      subtitle: "沙漠關閉時的替代行程",
+      departureTime: "07:00 出發",
+      attractions: [
+        {
+          zh: "法尤姆綠洲",
+          en: "Fayoum Oasis",
+          arabic: "واحة الفيوم",
+          arabicRoman: "Wāḥat al-Fayyūm",
+          description: "世界上最古老的自然保護區之一，位於尼羅河西段的沙漠中，是一片廣闊的天然窪地綠洲。擁有豐富的自然生態和數千年的歷史遺跡。",
+          photoTips: "🔥 必拍：綠洲與沙漠的交界線，一邊翠綠一邊金黃的強烈對比。｜🤳 趣味構圖：站在綠洲邊緣，一腳踩沙漠一腳踩綠地。｜👥 團體照：湖邊有棕櫚樹背景的地方。",
+        },
+        {
+          zh: "加龍湖自然保護區",
+          en: "Qaroun Lake Nature Reserve",
+          arabic: "محمية بحيرة قارون",
+          arabicRoman: "Maḥmiyyat Buḥayrat Qārūn",
+          description: "埃及最大的天然湖泊之一，可觀賞候鳥、爬行動物和哺乳動物。湖區風光優美，是攝影愛好者的天堂。",
+          photoTips: "🔥 必拍：湖面倒映天空和沙漠丘陵的畫面。候鳥群飛的瞬間。｜🤳 趣味構圖：湖邊蹲低拍，水面倒影+真人上下對稱。｜👥 團體照：湖畔空地，以湖水和沙漠為背景。",
+        },
+      ],
+      meals: { breakfast: "飯店", lunch: "當地餐廳", dinner: "營地晚餐" },
+      hotel: "法尤姆露營（可自費升級星空飯店）",
+      details: ["※ 沙漠關閉時的替代行程", "露營可自費升級星空酒店（需加費用）"],
+    },
     meals: { breakfast: "飯店", lunch: "沙漠野餐", dinner: "沙漠營火晚餐" },
     hotel: "黑白沙漠星空飯店 Sky Camp",
     details: ["車程約 3.5 小時", "沙漠吉普車探險", "夜晚銀河星空壯觀"],
