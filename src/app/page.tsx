@@ -573,15 +573,22 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
   const [showAlternate, setShowAlternate] = useState(false);
   const longPressTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const tapCount = React.useRef(0);
+  const tapTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleToggle = () => {
+    if (day.alternateVersion) {
+      setShowAlternate((v) => !v);
+      setOpenIndex(null);
+    } else if (day.hiddenAttractions?.length) {
+      setShowHidden((v) => !v);
+    }
+  };
+
   const handlePressStart = () => {
     if (!day.hiddenAttractions?.length && !day.alternateVersion) return;
     longPressTimer.current = setTimeout(() => {
-      if (day.alternateVersion) {
-        setShowAlternate((v) => !v);
-        setOpenIndex(null);
-      } else {
-        setShowHidden((v) => !v);
-      }
+      handleToggle();
     }, 1500);
   };
 
@@ -590,6 +597,19 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
       clearTimeout(longPressTimer.current);
       longPressTimer.current = null;
     }
+  };
+
+  const handleTripleTap = () => {
+    if (!day.hiddenAttractions?.length && !day.alternateVersion) return;
+    tapCount.current += 1;
+    if (tapCount.current === 3) {
+      tapCount.current = 0;
+      if (tapTimer.current) clearTimeout(tapTimer.current);
+      handleToggle();
+      return;
+    }
+    if (tapTimer.current) clearTimeout(tapTimer.current);
+    tapTimer.current = setTimeout(() => { tapCount.current = 0; }, 500);
   };
 
   // Use alternate data when toggled
@@ -628,6 +648,7 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
       {/* Header */}
       <div
         className={`relative overflow-hidden bg-gradient-to-r ${dayColors[day.day] || "from-nile to-nile-light"} px-6 py-4 text-white ${day.hiddenAttractions?.length ? "select-none" : ""}`}
+        onClick={handleTripleTap}
         onMouseDown={handlePressStart}
         onMouseUp={handlePressEnd}
         onMouseLeave={handlePressEnd}
