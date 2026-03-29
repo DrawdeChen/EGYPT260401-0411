@@ -647,7 +647,7 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
     <div className="day-card overflow-hidden rounded-2xl border border-sand bg-white shadow-sm">
       {/* Header */}
       <div
-        className={`relative overflow-hidden bg-gradient-to-r ${dayColors[day.day] || "from-nile to-nile-light"} px-6 py-4 text-white ${day.hiddenAttractions?.length ? "select-none" : ""}`}
+        className={`relative overflow-hidden bg-gradient-to-r ${dayColors[day.day] || "from-nile to-nile-light"} px-6 py-4 text-white ${day.hiddenAttractions?.length || day.alternateVersion ? "select-none" : ""}`}
         onClick={handleTripleTap}
         onMouseDown={handlePressStart}
         onMouseUp={handlePressEnd}
