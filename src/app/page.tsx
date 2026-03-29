@@ -1079,7 +1079,7 @@ function CurrencyConverter() {
   const fallbackRates = { USD: 1, EGP: 50.7, TWD: 32.0 };
   const [rates, setRates] = useState(fallbackRates);
   const [lastUpdate, setLastUpdate] = useState("");
-  const [values, setValues] = useState({ USD: "1", EGP: "", TWD: "" });
+  const [values, setValues] = useState({ USD: "", EGP: "", TWD: "" });
   const [source, setSource] = useState<"fallback" | "live">("fallback");
 
   useEffect(() => {
