@@ -558,7 +558,7 @@ export const inclusions = [
 
 export const exclusions = [
   "國際機票",
-  "落地簽證費 USD $25（現金）",
+  "落地簽證費 USD $30（現金）",
   "熱氣球、出海、浮潛等自費項目",
 ];
 
@@ -566,7 +566,7 @@ export const importantNotes = [
   {
     category: "簽證",
     items: [
-      "埃及落地簽，需準備：護照正本（效期 6 個月以上）、2 吋照片 2 張、簽證費 USD $25",
+      "埃及落地簽，需準備：護照正本（效期 6 個月以上）、簽證費 USD $30 現金",
     ],
   },
   {
