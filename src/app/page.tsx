@@ -15,7 +15,10 @@ import {
   arabicPhrases,
   souvenirs,
   bargainingTips,
+  weatherData,
+  packingChecklist,
   type FlightLeg,
+  type WeatherDay,
 } from "@/data/tour";
 
 /* ───────────── Dual Clock ───────────── */
@@ -52,12 +55,15 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const links = [
     { href: "#itinerary", label: "每日行程" },
-    { href: "#flights", label: "航班資訊" },
     { href: "#hotels", label: "住宿安排" },
-    { href: "#pricing", label: "費用說明" },
-    { href: "#currency", label: "匯率換算" },
-    { href: "#shopping", label: "購物攻略" },
+    { href: "#weather", label: "天氣穿搭" },
+    { href: "#flights", label: "航班資訊" },
     { href: "#notes", label: "行前須知" },
+    { href: "#shopping", label: "購物攻略" },
+    { href: "#currency", label: "匯率換算" },
+    { href: "#arabic", label: "實用阿拉伯語" },
+    { href: "#pricing", label: "費用說明" },
+    { href: "#emergency", label: "緊急聯絡" },
     { href: "#contact", label: "聯絡資訊" },
   ];
 
@@ -260,7 +266,7 @@ function Hero() {
         </p>
 
         <h1 className="gold-shimmer mb-4 font-heading text-4xl font-bold whitespace-nowrap md:text-7xl">
-          {tourInfo.title}
+          埃及 <span className="gold-shimmer inline-block pb-[0.15em]" style={{ transform: "translateY(-0.15em)" }}>9</span> 天深度之旅
         </h1>
 
         <p className="mb-6 font-heading text-base text-sand/90 italic md:text-2xl">
@@ -566,6 +572,19 @@ function AttractionItem({
   );
 }
 
+/* ───────────── Shared Day Colors ───────────── */
+const dayColors: Record<number, string> = {
+  1: "from-nile-light to-nile",
+  2: "from-nile-light to-nile",
+  3: "from-terracotta to-terracotta-light",
+  4: "from-terracotta to-terracotta-light",
+  5: "from-emerald to-emerald/80",
+  6: "from-emerald to-emerald/80",
+  7: "from-emerald to-emerald/80",
+  8: "from-gold-dark to-gold",
+  9: "from-nile-light to-nile",
+};
+
 /* ───────────── Day Card ───────────── */
 function DayCard({ day }: { day: (typeof itinerary)[number] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -629,18 +648,6 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
     meals: day.meals,
     hotel: day.hotel,
     details: day.details,
-  };
-
-  const dayColors: Record<number, string> = {
-    1: "from-nile-light to-nile",
-    2: "from-nile-light to-nile",
-    3: "from-terracotta to-terracotta-light",
-    4: "from-terracotta to-terracotta-light",
-    5: "from-emerald to-emerald/80",
-    6: "from-emerald to-emerald/80",
-    7: "from-emerald to-emerald/80",
-    8: "from-gold-dark to-gold",
-    9: "from-nile-light to-nile",
   };
 
   return (
@@ -915,7 +922,7 @@ function Flights() {
 /* ───────────── Accommodations Section ───────────── */
 function Accommodations() {
   return (
-    <section id="hotels" className="bg-papyrus py-16 md:py-24">
+    <section id="hotels" className="bg-white py-16 md:py-24">
       <div className="mx-auto max-w-5xl px-4">
         <SectionTitle title="住宿安排" subtitle="Accommodations" />
 
@@ -976,6 +983,159 @@ function Accommodations() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────── Weather & Clothing Section ───────────── */
+const periodIcons: Record<string, string> = {
+  "白天": "☀️", "白天沙漠": "☀️", "白天戶外": "☀️", "白天帝王谷": "☀️",
+  "傍晚": "🌅", "傍晚市集": "🌅", "傍晚帆船": "🌅",
+  "夜間露營": "🌙", "夜間神殿": "🌙",
+  "凌晨 4:00": "🌑",
+  "晚間開羅": "🌙",
+};
+
+function WeatherRow({ weather, isOpen, onToggle }: { weather: WeatherDay; isOpen: boolean; onToggle: () => void }) {
+  const gradient = dayColors[weather.day] || "from-nile-light to-nile";
+
+  return (
+    <div className="border-b border-sand/30 last:border-b-0">
+      {/* Collapsed row — always visible */}
+      <button
+        onClick={onToggle}
+        className="grid w-full grid-cols-[auto_1fr_auto_auto] items-center gap-x-2.5 px-3 py-2.5 text-left transition-colors hover:bg-papyrus/40 md:gap-x-3 md:px-5 md:py-3"
+      >
+        {/* Day badge */}
+        <span className={`shrink-0 rounded-full bg-gradient-to-r ${gradient} px-2 py-0.5 text-[10px] font-bold text-white`}>
+          D{weather.day}
+        </span>
+
+        {/* Date + location — single line, truncate on mobile */}
+        <p className="truncate text-sm text-nile">
+          <span className="text-[11px] text-nile/40">{weather.date}</span>
+          <span className="mx-1 text-nile/20">|</span>
+          <span className="font-semibold">{weather.location}</span>
+        </p>
+
+        {/* Weather summary */}
+        <div className="flex shrink-0 items-center gap-1">
+          <span className="text-sm leading-none">{weather.conditionIcon}</span>
+          <span className="font-mono text-sm font-bold text-nile">{weather.high}°</span>
+          <span className="font-mono text-[11px] text-nile/40">/{weather.low}°</span>
+        </div>
+
+        {/* Chevron */}
+        <svg
+          className={`h-3.5 w-3.5 shrink-0 text-nile/30 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {/* Expanded detail */}
+      {isOpen && (
+        <div className="animate-fade-in border-t border-sand/20 bg-papyrus/30 px-4 pb-4 pt-3 md:px-5">
+          <p className="mb-2 text-[10px] text-nile/40">{weather.condition} · 風 {weather.wind}</p>
+
+          {/* Time periods */}
+          <div className="space-y-2.5">
+            {weather.clothing.map((c, i) => (
+              <div key={i} className="flex flex-wrap items-start gap-x-3 gap-y-1.5">
+                <div className="flex shrink-0 items-center gap-1">
+                  <span className="text-xs">{periodIcons[c.period] || "🕐"}</span>
+                  <span className="text-xs font-semibold text-nile">{c.period}</span>
+                  <span className="rounded-full bg-terracotta/10 px-1.5 py-0.5 font-mono text-[10px] text-terracotta">
+                    {c.temp}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {c.items.map((item, j) => (
+                    <span key={j} className="rounded-full bg-sand/50 px-2 py-0.5 text-[11px] text-nile">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Special notes */}
+          {weather.specialNotes && weather.specialNotes.length > 0 && (
+            <div className="mt-3 space-y-1 border-t border-sand/20 pt-2.5">
+              {weather.specialNotes.map((note, i) => (
+                <p key={i} className="text-[11px] leading-relaxed text-nile/60">
+                  <span className="mr-1">{note.icon}</span>{note.text}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function WeatherSection() {
+  const [openDay, setOpenDay] = useState<number | null>(null);
+
+  return (
+    <section id="weather" className="bg-papyrus py-16 md:py-24">
+      <div className="mx-auto max-w-4xl px-4">
+        <SectionTitle title="天氣與穿搭建議" subtitle="Weather & Clothing Guide" />
+
+        {/* Temperature range summary */}
+        <div className="mx-auto mb-8 max-w-md rounded-xl border border-sand bg-papyrus/50 px-5 py-3 text-center">
+          <p className="text-xs text-nile/50">全程氣溫範圍</p>
+          <p className="mt-1 font-mono text-lg font-bold text-nile">
+            <span className="text-emerald">10°C</span>
+            <span className="mx-2 text-gold/40">──────</span>
+            <span className="text-terracotta">30°C</span>
+          </p>
+          <p className="mt-1 text-[10px] text-nile/40">
+            開羅涼爽舒適 · 南部炎熱 · 沙漠夜晚寒冷 → 洋蔥式穿法
+          </p>
+        </div>
+
+        {/* Unified weather list */}
+        <div className="overflow-hidden rounded-2xl border border-sand bg-white shadow-sm">
+          {weatherData.map((w) => (
+            <WeatherRow
+              key={w.day}
+              weather={w}
+              isOpen={openDay === w.day}
+              onToggle={() => setOpenDay(openDay === w.day ? null : w.day)}
+            />
+          ))}
+        </div>
+
+        {/* Packing checklist */}
+        <div className="mt-12">
+          <div className="mb-6 text-center">
+            <p className="mb-1 text-xs tracking-[0.2em] text-gold/70 uppercase">Packing Checklist</p>
+            <h3 className="font-heading text-xl font-bold text-nile">行李打包清單</h3>
+            <div className="wing-divider mt-2 text-xs text-gold/60">✦</div>
+          </div>
+          <div className="space-y-2">
+            {packingChecklist.map((cat) => (
+              <div key={cat.category} className="rounded-xl border border-gold/20 bg-white px-4 py-3 shadow-sm">
+                <div className="mb-1.5 flex items-center gap-2">
+                  <span className="text-base">{cat.icon}</span>
+                  <span className="text-sm font-bold text-nile">{cat.category}</span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {cat.items.map((item, i) => (
+                    <span key={i} className="rounded-full bg-sand/40 px-2.5 py-0.5 text-xs text-nile/70">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -1303,16 +1463,16 @@ function Notes() {
 /* ───────────── Emergency Contacts ───────────── */
 function EmergencyContacts() {
   return (
-    <section className="bg-nile py-12 md:py-16">
+    <section id="emergency" className="bg-papyrus py-12 md:py-16">
       <div className="mx-auto max-w-5xl px-4">
         <div className="mb-8 text-center">
           <p className="mb-1 text-xs tracking-[0.2em] text-gold/70 uppercase">
             Emergency
           </p>
-          <h2 className="font-heading text-2xl font-bold text-gold md:text-3xl">
+          <h2 className="font-heading text-2xl font-bold text-nile md:text-3xl">
             緊急聯絡資訊
           </h2>
-          <div className="wing-divider mt-3 text-sm text-gold/40">✦</div>
+          <div className="wing-divider mt-3 text-sm text-gold/60">✦</div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
@@ -1321,7 +1481,7 @@ function EmergencyContacts() {
               key={group.category}
               className="rounded-xl border border-terracotta/20 bg-terracotta/5 p-4"
             >
-              <h3 className="mb-3 text-sm font-bold text-terracotta-light">
+              <h3 className="mb-3 text-sm font-bold text-terracotta">
                 {group.category}
               </h3>
               <div className="space-y-1.5">
@@ -1330,8 +1490,8 @@ function EmergencyContacts() {
                     key={item.label}
                     className="flex items-center justify-between text-sm"
                   >
-                    <span className="text-sand/60">{item.label}</span>
-                    <span className="font-mono text-xs font-medium text-gold">
+                    <span className="text-nile/60">{item.label}</span>
+                    <span className="font-mono text-xs font-medium text-nile">
                       {item.number}
                     </span>
                   </div>
@@ -1348,7 +1508,7 @@ function EmergencyContacts() {
 /* ───────────── Arabic Phrases ───────────── */
 function ArabicPhrases() {
   return (
-    <section className="bg-papyrus py-12 md:py-16">
+    <section id="arabic" className="bg-white py-12 md:py-16">
       <div className="mx-auto max-w-3xl px-4">
         <div className="mb-8 text-center">
           <p className="mb-1 text-xs tracking-[0.2em] text-gold/70 uppercase">
@@ -1529,14 +1689,15 @@ export default function Home() {
       <Hero />
       <RouteOverview />
       <Itinerary />
-      <Flights />
       <Accommodations />
-      <Pricing />
-      <CurrencyConverter />
-      <ShoppingGuide />
+      <WeatherSection />
+      <Flights />
       <Notes />
-      <EmergencyContacts />
+      <ShoppingGuide />
+      <CurrencyConverter />
       <ArabicPhrases />
+      <Pricing />
+      <EmergencyContacts />
       <Footer />
     </main>
   );

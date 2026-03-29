@@ -44,6 +44,36 @@ export interface FlightLeg {
   duration: string;
 }
 
+export interface TimePeriodClothing {
+  period: string;
+  temp: string;
+  items: string[];
+}
+
+export interface SpecialNote {
+  icon: string;
+  text: string;
+}
+
+export interface WeatherDay {
+  day: number;
+  date: string;
+  location: string;
+  high: number;
+  low: number;
+  condition: string;
+  conditionIcon: string;
+  wind: string;
+  clothing: TimePeriodClothing[];
+  specialNotes?: SpecialNote[];
+}
+
+export interface PackingItem {
+  category: string;
+  icon: string;
+  items: string[];
+}
+
 export const tourInfo = {
   title: "埃及 9 天深度之旅",
   subtitle: "開羅 ➜ 黑白沙漠 ➜ 阿斯旺 ➜ 盧克索郵輪",
@@ -782,5 +812,197 @@ export const bargainingTips = [
   {
     title: "只帶現金埃鎊，準備小面額",
     desc: "用埃鎊付款比美金更好殺價。帶小面額紙鈔（5、10、20 EGP），避免店家說「沒有零錢找」",
+  },
+];
+
+export const weatherData: WeatherDay[] = [
+  {
+    day: 1,
+    date: "04/02",
+    location: "開羅 Cairo",
+    high: 27,
+    low: 17,
+    condition: "晨間多雲",
+    conditionIcon: "⛅",
+    wind: "32 km/h",
+    clothing: [
+      { period: "白天", temp: "22–27°C", items: ["短袖或薄長袖", "長褲／長裙", "運動鞋"] },
+      { period: "傍晚市集", temp: "~18°C", items: ["薄外套或罩衫", "舒適步行鞋"] },
+    ],
+    specialNotes: [
+      { icon: "🕌", text: "清真寺須遮肩膀＋過膝，需包頭巾 — 帶大圍巾最萬用" },
+      { icon: "👗", text: "穿長裙／寬褲直接一整天，進清真寺免換裝最省事" },
+    ],
+  },
+  {
+    day: 2,
+    date: "04/03",
+    location: "黑白沙漠",
+    high: 26,
+    low: 10,
+    condition: "晴天",
+    conditionIcon: "☀️",
+    wind: "21 km/h",
+    clothing: [
+      { period: "白天沙漠", temp: "23–26°C", items: ["短袖", "長褲（防沙）", "遮陽帽", "墨鏡"] },
+      { period: "夜間露營", temp: "~10°C", items: ["厚外套／輕羽絨", "長褲", "厚襪"] },
+    ],
+    specialNotes: [
+      { icon: "🏕️", text: "沙漠夜晚驟降至 10°C，全程最冷的一晚！務必帶最厚外套" },
+      { icon: "🌬️", text: "風沙大，建議帶魔術頭巾遮口鼻" },
+      { icon: "👟", text: "穿包覆式運動鞋，涼鞋和裙裝今天都不適合" },
+    ],
+  },
+  {
+    day: 3,
+    date: "04/04",
+    location: "開羅 Cairo",
+    high: 25,
+    low: 14,
+    condition: "晴天",
+    conditionIcon: "☀️",
+    wind: "18 km/h",
+    clothing: [
+      { period: "白天", temp: "20–25°C", items: ["薄長袖或短袖", "長褲", "舒適步行鞋"] },
+    ],
+    specialNotes: [
+      { icon: "🛍️", text: "逛購物中心室內冷氣強，帶薄外套" },
+    ],
+  },
+  {
+    day: 4,
+    date: "04/05",
+    location: "開羅·吉薩 Giza",
+    high: 24,
+    low: 15,
+    condition: "晴天",
+    conditionIcon: "☀️",
+    wind: "24 km/h",
+    clothing: [
+      { period: "白天戶外", temp: "20–24°C", items: ["薄長袖", "長褲", "運動鞋", "遮陽帽"] },
+      { period: "傍晚", temp: "~16°C", items: ["薄外套"] },
+    ],
+    specialNotes: [
+      { icon: "🐪", text: "騎駱駝務必穿長褲 — 裙裝會磨腿，上下駱駝動作大易走光" },
+      { icon: "🏜️", text: "金字塔區風沙大，備墨鏡" },
+    ],
+  },
+  {
+    day: 5,
+    date: "04/06",
+    location: "阿斯旺 Aswan",
+    high: 30,
+    low: 21,
+    condition: "漸晴",
+    conditionIcon: "🌤️",
+    wind: "30 km/h",
+    clothing: [
+      { period: "白天", temp: "28–30°C", items: ["短袖或背心", "寬褲／長洋裝", "涼鞋或透氣鞋"] },
+      { period: "傍晚帆船", temp: "~24°C", items: ["薄長袖備用"] },
+    ],
+    specialNotes: [
+      { icon: "⛵", text: "風帆船河面風大，帽子用繩固定、手機掛繩" },
+      { icon: "🎨", text: "努比亞村彩色牆拍照超美！白色、藍色、黃色系衣服最上鏡" },
+      { icon: "☀️", text: "南部紫外線極強，防曬乳 SPF50+ 必擦" },
+    ],
+  },
+  {
+    day: 6,
+    date: "04/07",
+    location: "阿布辛貝→亞斯文",
+    high: 30,
+    low: 18,
+    condition: "晴天",
+    conditionIcon: "☀️",
+    wind: "18 km/h",
+    clothing: [
+      { period: "凌晨 4:00", temp: "~18°C", items: ["薄外套（車上易脫）", "長褲"] },
+      { period: "白天", temp: "28–30°C", items: ["短袖", "遮陽帽", "墨鏡"] },
+    ],
+    specialNotes: [
+      { icon: "⏰", text: "凌晨 4 點出發，車上可補眠，穿舒適易脫外套" },
+      { icon: "📸", text: "法老像前拍照，飄逸裙裝或寬鬆襯衫效果很好" },
+      { icon: "☀️", text: "全露天無遮蔽，防曬是重中之重" },
+    ],
+  },
+  {
+    day: 7,
+    date: "04/08",
+    location: "艾德福→盧克索",
+    high: 30,
+    low: 18,
+    condition: "晴天",
+    conditionIcon: "☀️",
+    wind: "9 km/h",
+    clothing: [
+      { period: "白天", temp: "28–30°C", items: ["短袖", "輕薄長褲／長裙", "遮陽帽", "涼鞋"] },
+      { period: "夜間神殿", temp: "~20°C", items: ["薄長袖或薄外套"] },
+    ],
+    specialNotes: [
+      { icon: "🌡️", text: "南部持續高溫，注意防曬補水" },
+      { icon: "🌙", text: "夜訪盧克索神殿，深色或白色穿搭配金色神殿超出片" },
+    ],
+  },
+  {
+    day: 8,
+    date: "04/09",
+    location: "盧克索→開羅 ✈",
+    high: 30,
+    low: 16,
+    condition: "晴天",
+    conditionIcon: "☀️",
+    wind: "25 km/h",
+    clothing: [
+      { period: "白天帝王谷", temp: "28–30°C", items: ["短袖", "遮陽帽", "運動鞋"] },
+      { period: "晚間開羅", temp: "~16°C", items: ["薄外套"] },
+    ],
+    specialNotes: [
+      { icon: "👑", text: "帝王谷墓穴內悶熱，穿透氣衣物" },
+      { icon: "✈️", text: "盧克索 30°C → 開羅 25°C，記得帶外套上飛機" },
+    ],
+  },
+  {
+    day: 9,
+    date: "04/10",
+    location: "開羅 Cairo",
+    high: 25,
+    low: 17,
+    condition: "晴天",
+    conditionIcon: "☀️",
+    wind: "26 km/h",
+    clothing: [
+      { period: "白天", temp: "20–24°C", items: ["舒適便裝", "步行鞋"] },
+    ],
+    specialNotes: [
+      { icon: "✈️", text: "最後一天，穿舒適搭機服裝即可" },
+    ],
+  },
+];
+
+export const packingChecklist: PackingItem[] = [
+  {
+    category: "上衣",
+    icon: "👕",
+    items: ["短袖 × 5–6", "薄長袖 × 2", "厚外套／輕羽絨 × 1", "薄外套 × 1"],
+  },
+  {
+    category: "下身",
+    icon: "👖",
+    items: ["寬鬆透氣長褲 × 3–4", "長裙／長洋裝 × 1–2（拍照＋清真寺萬用）", "短褲 × 1（郵輪用）"],
+  },
+  {
+    category: "鞋類",
+    icon: "👟",
+    items: ["運動鞋 × 1（主力）", "涼鞋 × 1（郵輪用）"],
+  },
+  {
+    category: "配件",
+    icon: "🧢",
+    items: ["遮陽帽（有繩）", "墨鏡", "大圍巾（頭巾＋防曬＋披肩三用）", "魔術頭巾（防沙）", "防曬乳 SPF50+", "保濕乳液"],
+  },
+  {
+    category: "其他",
+    icon: "🎒",
+    items: ["輕便後背包", "水壺", "面紙／濕紙巾", "口罩（防沙塵）"],
   },
 ];
