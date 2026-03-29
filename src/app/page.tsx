@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   tourInfo,
   outboundFlights,
@@ -569,6 +569,22 @@ function AttractionItem({
 /* ───────────── Day Card ───────────── */
 function DayCard({ day }: { day: (typeof itinerary)[number] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [showHidden, setShowHidden] = useState(false);
+  const longPressTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handlePressStart = () => {
+    if (!day.hiddenAttractions?.length) return;
+    longPressTimer.current = setTimeout(() => {
+      setShowHidden((v) => !v);
+    }, 1500);
+  };
+
+  const handlePressEnd = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  };
 
   const dayColors: Record<number, string> = {
     1: "from-nile-light to-nile",
@@ -586,7 +602,12 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
     <div className="day-card overflow-hidden rounded-2xl border border-sand bg-white shadow-sm">
       {/* Header */}
       <div
-        className={`relative overflow-hidden bg-gradient-to-r ${dayColors[day.day] || "from-nile to-nile-light"} px-6 py-4 text-white`}
+        className={`relative overflow-hidden bg-gradient-to-r ${dayColors[day.day] || "from-nile to-nile-light"} px-6 py-4 text-white ${day.hiddenAttractions?.length ? "select-none" : ""}`}
+        onMouseDown={handlePressStart}
+        onMouseUp={handlePressEnd}
+        onMouseLeave={handlePressEnd}
+        onTouchStart={handlePressStart}
+        onTouchEnd={handlePressEnd}
       >
         {/* Hieroglyph watermark */}
         <span
@@ -636,6 +657,28 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
               />
             ))}
           </ul>
+
+          {/* Hidden attractions (long-press to reveal) */}
+          {showHidden && day.hiddenAttractions && (
+            <div className="mt-3 rounded-lg border border-dashed border-gold/40 bg-gold/5 p-3">
+              <p className="mb-2 text-[10px] font-bold tracking-wider text-gold-dark uppercase">
+                額外行程
+              </p>
+              <ul className="space-y-2">
+                {day.hiddenAttractions.map((a, i) => (
+                  <AttractionItem
+                    key={`hidden-${i}`}
+                    attraction={a}
+                    isOpen={openIndex === day.attractions.length + i}
+                    onToggle={() => {
+                      const idx = day.attractions.length + i;
+                      setOpenIndex(openIndex === idx ? null : idx);
+                    }}
+                  />
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* Meals & Hotel */}

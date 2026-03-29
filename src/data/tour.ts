@@ -15,6 +15,7 @@ export interface DaySchedule {
   subtitle: string;
   departureTime?: string;
   attractions: Attraction[];
+  hiddenAttractions?: Attraction[];
   meals: { breakfast?: string; lunch?: string; dinner?: string };
   hotel: string;
   details?: string[];
@@ -281,6 +282,16 @@ export const itinerary: DaySchedule[] = [
     attractions: [
       { zh: "乘車返回開羅", en: "Drive back to Cairo", isActivity: true },
       { zh: "購物中心逛街", en: "Shopping Mall", isActivity: true },
+    ],
+    hiddenAttractions: [
+      {
+        zh: "埃及文明博物館",
+        en: "National Museum of Egyptian Civilization (NMEC)",
+        arabic: "المتحف القومي للحضارة المصرية",
+        arabicRoman: "Al-Matḥaf al-Qawmī lil-Ḥaḍāra al-Miṣriyya",
+        description: "2021 年正式開幕，位於老開羅的福斯塔特（Fustat）地區。與大埃及博物館不同，這座博物館涵蓋了埃及從史前到現代的完整文明史。鎮館之寶是 22 具皇家木乃伊（2021 年以盛大遊行從舊博物館遷入），包括拉美西斯二世、哈特謝普蘇特女王等法老的木乃伊。建議停留 2–3 小時。",
+        photoTips: "🔥 必拍：皇家木乃伊廳氣氛莊嚴，可拍展廳全景但禁閃光燈。建築本身的現代設計+尼羅河景觀也很值得拍。｜🤳 趣味構圖：博物館入口處的大階梯，以老開羅為背景。｜👥 團體照：博物館正門廣場。",
+      },
     ],
     meals: { breakfast: "沙漠營地", lunch: "當地餐廳" },
     hotel: "Hilton Cairo Grand Nile",
