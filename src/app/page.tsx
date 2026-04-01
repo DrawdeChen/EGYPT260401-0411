@@ -30,8 +30,30 @@ const DuelModeContext = React.createContext(false);
 function useShakeDuelMode() {
   const [duelMode, setDuelMode] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+  const [motionEnabled, setMotionEnabled] = useState(false);
+  const motionEnabledRef = React.useRef(false);
+
+  // Request iOS motion permission + start listening
+  const requestMotion = React.useCallback(async () => {
+    if (motionEnabledRef.current) return;
+
+    // iOS 13+ requires explicit permission
+    const DME = DeviceMotionEvent as unknown as { requestPermission?: () => Promise<string> };
+    if (typeof DME.requestPermission === "function") {
+      try {
+        const perm = await DME.requestPermission();
+        if (perm !== "granted") return;
+      } catch { return; }
+    }
+
+    motionEnabledRef.current = true;
+    setMotionEnabled(true);
+    setToast("🔓 搖晃手機來啟動");
+  }, []);
 
   useEffect(() => {
+    if (!motionEnabled) return;
+
     let shakeCount = 0;
     let lastShake = 0;
     let lastX = 0, lastY = 0, lastZ = 0;
@@ -54,7 +76,7 @@ function useShakeDuelMode() {
 
       lastX = acc.x; lastY = acc.y; lastZ = acc.z;
 
-      if (force > 25) {
+      if (force > 20) {
         const now = Date.now();
         if (now - lastShake > 300) {
           shakeCount++;
@@ -70,12 +92,20 @@ function useShakeDuelMode() {
         }
       }
 
-      // Reset count after 2s of no shaking
       if (Date.now() - lastShake > 2000) shakeCount = 0;
     };
 
     window.addEventListener("devicemotion", handleMotion);
     return () => window.removeEventListener("devicemotion", handleMotion);
+  }, [motionEnabled]);
+
+  // Auto-enable on non-iOS (no permission needed)
+  useEffect(() => {
+    const DME = DeviceMotionEvent as unknown as { requestPermission?: () => Promise<string> };
+    if (typeof DME.requestPermission !== "function") {
+      motionEnabledRef.current = true;
+      setMotionEnabled(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -85,7 +115,7 @@ function useShakeDuelMode() {
     }
   }, [toast]);
 
-  return { duelMode, toast };
+  return { duelMode, toast, requestMotion, motionEnabled };
 }
 
 /* ───────────── Dual Clock ───────────── */
@@ -1869,7 +1899,22 @@ function RouteMap() {
 }
 
 /* ───────────── Footer / Contact ───────────── */
-function Footer() {
+function Footer({ onSecretTap }: { onSecretTap?: () => void }) {
+  const tapCount = React.useRef(0);
+  const tapTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleCopyrightTap = () => {
+    tapCount.current++;
+    if (tapCount.current >= 5) {
+      tapCount.current = 0;
+      if (tapTimer.current) clearTimeout(tapTimer.current);
+      onSecretTap?.();
+      return;
+    }
+    if (tapTimer.current) clearTimeout(tapTimer.current);
+    tapTimer.current = setTimeout(() => { tapCount.current = 0; }, 2000);
+  };
+
   return (
     <footer id="contact" className="bg-nile py-16 text-white">
       <div className="mx-auto max-w-5xl px-4 text-center">
@@ -1902,7 +1947,7 @@ function Footer() {
 
         <div className="hieroglyphic-border mx-auto mb-6 max-w-xs" />
 
-        <p className="text-xs text-sand/30">
+        <p className="text-xs text-sand/30 select-none" onClick={handleCopyrightTap}>
           © 2026 Egypt Tour Group — Made with 𓋹 for our fellow travelers
         </p>
       </div>
@@ -1912,7 +1957,7 @@ function Footer() {
 
 /* ───────────── Main Page ───────────── */
 export default function Home() {
-  const { duelMode, toast } = useShakeDuelMode();
+  const { duelMode, toast, requestMotion, motionEnabled } = useShakeDuelMode();
 
   return (
     <DuelModeContext.Provider value={duelMode}>
@@ -1930,7 +1975,7 @@ export default function Home() {
         <ArabicPhrases />
         <Pricing />
         <EmergencyContacts />
-        <Footer />
+        <Footer onSecretTap={requestMotion} />
       </main>
 
       {/* Duel Mode Toast */}
