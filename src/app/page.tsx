@@ -19,7 +19,73 @@ import {
   packingChecklist,
   type FlightLeg,
   type WeatherDay,
+  type DeepContent,
+  type DuelCard,
 } from "@/data/tour";
+
+/* ───────────── Duel Mode Context ───────────── */
+const DuelModeContext = React.createContext(false);
+
+function useShakeDuelMode() {
+  const [duelMode, setDuelMode] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    let shakeCount = 0;
+    let lastShake = 0;
+    let lastX = 0, lastY = 0, lastZ = 0;
+    let initialized = false;
+
+    const handleMotion = (e: DeviceMotionEvent) => {
+      const acc = e.accelerationIncludingGravity;
+      if (!acc || acc.x === null || acc.y === null || acc.z === null) return;
+
+      if (!initialized) {
+        lastX = acc.x; lastY = acc.y; lastZ = acc.z;
+        initialized = true;
+        return;
+      }
+
+      const dx = acc.x - lastX;
+      const dy = acc.y - lastY;
+      const dz = acc.z - lastZ;
+      const force = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+      lastX = acc.x; lastY = acc.y; lastZ = acc.z;
+
+      if (force > 25) {
+        const now = Date.now();
+        if (now - lastShake > 300) {
+          shakeCount++;
+          lastShake = now;
+          if (shakeCount >= 3) {
+            shakeCount = 0;
+            setDuelMode(prev => {
+              const next = !prev;
+              setToast(next ? "🃏 決鬥模式啟動" : "決鬥模式關閉");
+              return next;
+            });
+          }
+        }
+      }
+
+      // Reset count after 2s of no shaking
+      if (Date.now() - lastShake > 2000) shakeCount = 0;
+    };
+
+    window.addEventListener("devicemotion", handleMotion);
+    return () => window.removeEventListener("devicemotion", handleMotion);
+  }, []);
+
+  useEffect(() => {
+    if (toast) {
+      const t = setTimeout(() => setToast(null), 2000);
+      return () => clearTimeout(t);
+    }
+  }, [toast]);
+
+  return { duelMode, toast };
+}
 
 /* ───────────── Dual Clock ───────────── */
 function DualClock() {
@@ -482,7 +548,11 @@ function AttractionItem({
   isOpen: boolean;
   onToggle: () => void;
 }) {
+  const [showSheet, setShowSheet] = useState(false);
+  const duelMode = React.useContext(DuelModeContext);
   const canExpand = !attraction.isActivity && attraction.description;
+  const hasDeep = !!attraction.deepContent && (attraction.deepContent.stories.length > 0 || attraction.deepContent.highlights.length > 0);
+  const hasDuelCards = duelMode && attraction.duelCards && attraction.duelCards.length > 0;
 
   return (
     <li className="group">
@@ -499,6 +569,7 @@ function AttractionItem({
         </span>
         <span className="flex flex-wrap items-baseline gap-x-2">
           <span className="font-medium text-nile">{attraction.zh}</span>
+          {hasDuelCards && <span className="text-xs" title="有卡牌連結">🃏</span>}
           {!attraction.isActivity && (
             <span className="text-xs text-nile/45">{attraction.en}</span>
           )}
@@ -566,9 +637,165 @@ function AttractionItem({
               </ul>
             </div>
           )}
+
+          {/* Deep Dive Button */}
+          {hasDeep && (
+            <button
+              onClick={(e) => { e.stopPropagation(); setShowSheet(true); }}
+              className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-nile/15 bg-nile/5 py-2 text-xs font-semibold text-nile/70 transition-colors hover:bg-nile/10 hover:text-nile"
+            >
+              <span>📖</span>
+              <span>深入了解</span>
+              <span className="text-[10px]">▾</span>
+            </button>
+          )}
         </div>
       )}
+
+      {/* Deep Content Bottom Sheet */}
+      {showSheet && attraction.deepContent && (
+        <DeepContentSheet
+          title={attraction.zh}
+          content={attraction.deepContent}
+          duelCards={hasDuelCards ? attraction.duelCards : undefined}
+          onClose={() => setShowSheet(false)}
+        />
+      )}
     </li>
+  );
+}
+
+/* ───────────── Deep Content Bottom Sheet ───────────── */
+function DeepContentSheet({
+  title,
+  content,
+  duelCards,
+  onClose,
+}: {
+  title: string;
+  content: DeepContent;
+  duelCards?: DuelCard[];
+  onClose: () => void;
+}) {
+  const [tab, setTab] = useState<"stories" | "highlights" | "food" | "duel">("stories");
+  const hasFood = content.food.length > 0;
+  const hasDuel = duelCards && duelCards.length > 0;
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  return (
+    <div className="fixed inset-0 z-[100] flex flex-col justify-end" onClick={onClose}>
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      {/* Sheet */}
+      <div
+        className="relative mx-auto w-full max-w-lg animate-slide-up rounded-t-2xl border-t border-gold/30 bg-papyrus shadow-2xl"
+        style={{ maxHeight: "85vh" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Handle */}
+        <div className="flex justify-center pt-3 pb-1">
+          <div className="h-1 w-10 rounded-full bg-nile/20" />
+        </div>
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 pb-3">
+          <h3 className="text-base font-bold text-nile">{title}</h3>
+          <button onClick={onClose} className="rounded-full p-1.5 text-nile/40 hover:bg-sand-light hover:text-nile">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+          </button>
+        </div>
+        {/* Tabs */}
+        <div className="flex gap-1 border-b border-sand/60 px-5">
+          <button
+            onClick={() => setTab("stories")}
+            className={`rounded-t-lg px-3 py-2 text-xs font-semibold transition-colors ${tab === "stories" ? "border-b-2 border-gold text-gold-dark" : "text-nile/40 hover:text-nile/60"}`}
+          >
+            📖 故事
+          </button>
+          <button
+            onClick={() => setTab("highlights")}
+            className={`rounded-t-lg px-3 py-2 text-xs font-semibold transition-colors ${tab === "highlights" ? "border-b-2 border-gold text-gold-dark" : "text-nile/40 hover:text-nile/60"}`}
+          >
+            ✨ 亮點
+          </button>
+          {hasFood && (
+            <button
+              onClick={() => setTab("food")}
+              className={`rounded-t-lg px-3 py-2 text-xs font-semibold transition-colors ${tab === "food" ? "border-b-2 border-gold text-gold-dark" : "text-nile/40 hover:text-nile/60"}`}
+            >
+              🍽️ 美食
+            </button>
+          )}
+          {hasDuel && (
+            <button
+              onClick={() => setTab("duel")}
+              className={`rounded-t-lg px-3 py-2 text-xs font-semibold transition-colors ${tab === "duel" ? "border-b-2 border-gold text-gold-dark" : "text-nile/40 hover:text-nile/60"}`}
+            >
+              🃏 卡牌
+            </button>
+          )}
+        </div>
+        {/* Content */}
+        <div className="overflow-y-auto overscroll-contain px-5 py-4" style={{ maxHeight: "calc(85vh - 130px)" }}>
+          {tab === "stories" && (
+            <div className="space-y-4">
+              {content.stories.map((s, i) => (
+                <div key={i}>
+                  <h4 className="mb-1.5 text-sm font-bold text-nile">{s.title}</h4>
+                  <p className="text-xs leading-relaxed text-nile/65">{s.text}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          {tab === "highlights" && (
+            <ul className="space-y-3">
+              {content.highlights.map((h, i) => (
+                <li key={i} className="flex items-start gap-2.5 text-xs leading-relaxed text-nile/65">
+                  <span className="mt-0.5 shrink-0 text-sm">{h.icon}</span>
+                  <span>{h.text}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {tab === "food" && hasFood && (
+            <div className="space-y-3">
+              {content.food.map((f, i) => (
+                <div key={i} className="rounded-lg border border-gold/15 bg-gold/5 px-3 py-2.5">
+                  <p className="text-xs font-bold text-gold-dark">{f.name}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-nile/55">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          {tab === "duel" && hasDuel && (
+            <div className="space-y-5">
+              {duelCards!.map((card, i) => (
+                <div key={i} className="rounded-xl border border-nile/15 bg-nile/5 px-4 py-3">
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="text-lg">🐉</span>
+                    <div>
+                      <p className="text-sm font-bold text-nile">{card.cardName}</p>
+                      <p className="text-[10px] text-nile/40">{card.cardNameEn}</p>
+                    </div>
+                  </div>
+                  <div className="mb-2">
+                    <p className="mb-1 text-[10px] font-bold tracking-wider text-nile/50 uppercase">📍 連結</p>
+                    <p className="text-xs leading-relaxed text-nile/65">{card.connection}</p>
+                  </div>
+                  <div className="rounded-lg border border-gold/20 bg-gold/5 px-3 py-2">
+                    <p className="mb-1 text-[10px] font-bold tracking-wider text-gold-dark uppercase">📸 拍照建議</p>
+                    <p className="text-xs leading-relaxed text-nile/55">{card.photoTip}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -1683,22 +1910,40 @@ function Footer() {
 
 /* ───────────── Main Page ───────────── */
 export default function Home() {
+  const { duelMode, toast } = useShakeDuelMode();
+
   return (
-    <main>
-      <Navbar />
-      <Hero />
-      <RouteOverview />
-      <Itinerary />
-      <Accommodations />
-      <WeatherSection />
-      <Flights />
-      <Notes />
-      <ShoppingGuide />
-      <CurrencyConverter />
-      <ArabicPhrases />
-      <Pricing />
-      <EmergencyContacts />
-      <Footer />
-    </main>
+    <DuelModeContext.Provider value={duelMode}>
+      <main>
+        <Navbar />
+        <Hero />
+        <RouteOverview />
+        <Itinerary />
+        <Accommodations />
+        <WeatherSection />
+        <Flights />
+        <Notes />
+        <ShoppingGuide />
+        <CurrencyConverter />
+        <ArabicPhrases />
+        <Pricing />
+        <EmergencyContacts />
+        <Footer />
+      </main>
+
+      {/* Duel Mode Toast */}
+      {toast && (
+        <div className="fixed top-1/2 left-1/2 z-[200] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-nile/90 px-8 py-4 text-center text-lg font-bold text-gold shadow-2xl backdrop-blur-sm animate-fade-in">
+          {toast}
+        </div>
+      )}
+
+      {/* Duel Mode Indicator */}
+      {duelMode && (
+        <div className="fixed top-3 right-3 z-[90] flex h-8 w-8 items-center justify-center rounded-full bg-nile/80 text-sm shadow-lg backdrop-blur-sm" title="決鬥模式">
+          🔱
+        </div>
+      )}
+    </DuelModeContext.Provider>
   );
 }
