@@ -1947,8 +1947,11 @@ export default function Home() {
 
       {/* Duel Mode Indicator */}
       {duelMode && (
-        <div className="fixed top-3 right-3 z-[90] flex h-8 w-8 items-center justify-center rounded-full bg-nile/80 text-sm shadow-lg backdrop-blur-sm" title="決鬥模式">
-          🔱
+        <div className="fixed top-3 right-3 z-[90] flex h-8 w-8 items-center justify-center rounded-full bg-nile/80 text-[10px] leading-none shadow-lg backdrop-blur-sm select-none" title="決鬥模式">
+          <span className="relative">
+            <span className="text-gold">△</span>
+            <span className="absolute inset-0 flex items-center justify-center text-[7px]" style={{ marginTop: "1px" }}>👁</span>
+          </span>
         </div>
       )}
     </DuelModeContext.Provider>
