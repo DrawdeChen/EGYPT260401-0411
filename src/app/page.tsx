@@ -27,85 +27,26 @@ import {
 /* ───────────── Duel Mode Context ───────────── */
 const DuelModeContext = React.createContext(false);
 
-function useShakeDuelMode() {
+function useDuelMode() {
   const [duelMode, setDuelMode] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
-  const [motionEnabled, setMotionEnabled] = useState(false);
-  const motionEnabledRef = React.useRef(false);
+  const tapCount = React.useRef(0);
+  const tapTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Request iOS motion permission + start listening
-  const requestMotion = React.useCallback(async () => {
-    if (motionEnabledRef.current) return;
-
-    // iOS 13+ requires explicit permission
-    const DME = DeviceMotionEvent as unknown as { requestPermission?: () => Promise<string> };
-    if (typeof DME.requestPermission === "function") {
-      try {
-        const perm = await DME.requestPermission();
-        if (perm !== "granted") return;
-      } catch { return; }
+  const handleSecretTap = React.useCallback(() => {
+    tapCount.current++;
+    if (tapCount.current >= 5) {
+      tapCount.current = 0;
+      if (tapTimer.current) clearTimeout(tapTimer.current);
+      setDuelMode(prev => {
+        const next = !prev;
+        setToast(next ? "🃏 決鬥模式啟動" : "決鬥模式關閉");
+        return next;
+      });
+      return;
     }
-
-    motionEnabledRef.current = true;
-    setMotionEnabled(true);
-    setToast("🔓 搖晃手機來啟動");
-  }, []);
-
-  useEffect(() => {
-    if (!motionEnabled) return;
-
-    let shakeCount = 0;
-    let lastShake = 0;
-    let lastX = 0, lastY = 0, lastZ = 0;
-    let initialized = false;
-
-    const handleMotion = (e: DeviceMotionEvent) => {
-      const acc = e.accelerationIncludingGravity;
-      if (!acc || acc.x === null || acc.y === null || acc.z === null) return;
-
-      if (!initialized) {
-        lastX = acc.x; lastY = acc.y; lastZ = acc.z;
-        initialized = true;
-        return;
-      }
-
-      const dx = acc.x - lastX;
-      const dy = acc.y - lastY;
-      const dz = acc.z - lastZ;
-      const force = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-      lastX = acc.x; lastY = acc.y; lastZ = acc.z;
-
-      if (force > 20) {
-        const now = Date.now();
-        if (now - lastShake > 300) {
-          shakeCount++;
-          lastShake = now;
-          if (shakeCount >= 3) {
-            shakeCount = 0;
-            setDuelMode(prev => {
-              const next = !prev;
-              setToast(next ? "🃏 決鬥模式啟動" : "決鬥模式關閉");
-              return next;
-            });
-          }
-        }
-      }
-
-      if (Date.now() - lastShake > 2000) shakeCount = 0;
-    };
-
-    window.addEventListener("devicemotion", handleMotion);
-    return () => window.removeEventListener("devicemotion", handleMotion);
-  }, [motionEnabled]);
-
-  // Auto-enable on non-iOS (no permission needed)
-  useEffect(() => {
-    const DME = DeviceMotionEvent as unknown as { requestPermission?: () => Promise<string> };
-    if (typeof DME.requestPermission !== "function") {
-      motionEnabledRef.current = true;
-      setMotionEnabled(true);
-    }
+    if (tapTimer.current) clearTimeout(tapTimer.current);
+    tapTimer.current = setTimeout(() => { tapCount.current = 0; }, 2000);
   }, []);
 
   useEffect(() => {
@@ -115,7 +56,7 @@ function useShakeDuelMode() {
     }
   }, [toast]);
 
-  return { duelMode, toast, requestMotion, motionEnabled };
+  return { duelMode, toast, handleSecretTap };
 }
 
 /* ───────────── Dual Clock ───────────── */
@@ -240,7 +181,7 @@ function Navbar() {
 }
 
 /* ───────────── Hero ───────────── */
-function Hero() {
+function Hero({ onSecretTap }: { onSecretTap?: () => void }) {
   return (
     <section className="relative flex min-h-[60vh] flex-col items-center justify-center overflow-hidden bg-nile px-4 pt-16 pb-36 text-center md:min-h-[85vh] md:pb-56">
       {/* Decorative background elements */}
@@ -363,7 +304,7 @@ function Hero() {
         </p>
 
         <h1 className="gold-shimmer mb-4 font-heading text-4xl font-bold whitespace-nowrap md:text-7xl">
-          埃及 <span className="gold-shimmer inline-block pb-[0.15em]" style={{ transform: "translateY(-0.15em)" }}>9</span> 天深度之旅
+          埃及 <span className="gold-shimmer inline-block pb-[0.15em] select-none" style={{ transform: "translateY(-0.15em)" }} onClick={onSecretTap}>9</span> 天深度之旅
         </h1>
 
         <p className="mb-6 font-heading text-base text-sand/90 italic md:text-2xl">
@@ -1933,22 +1874,7 @@ function RouteMap() {
 }
 
 /* ───────────── Footer / Contact ───────────── */
-function Footer({ onSecretTap }: { onSecretTap?: () => void }) {
-  const tapCount = React.useRef(0);
-  const tapTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const handleCopyrightTap = () => {
-    tapCount.current++;
-    if (tapCount.current >= 5) {
-      tapCount.current = 0;
-      if (tapTimer.current) clearTimeout(tapTimer.current);
-      onSecretTap?.();
-      return;
-    }
-    if (tapTimer.current) clearTimeout(tapTimer.current);
-    tapTimer.current = setTimeout(() => { tapCount.current = 0; }, 2000);
-  };
-
+function Footer() {
   return (
     <footer id="contact" className="bg-nile py-16 text-white">
       <div className="mx-auto max-w-5xl px-4 text-center">
@@ -1981,7 +1907,7 @@ function Footer({ onSecretTap }: { onSecretTap?: () => void }) {
 
         <div className="hieroglyphic-border mx-auto mb-6 max-w-xs" />
 
-        <p className="text-xs text-sand/30 select-none" onClick={handleCopyrightTap}>
+        <p className="text-xs text-sand/30">
           © 2026 Egypt Tour Group — Made with 𓋹 for our fellow travelers
         </p>
       </div>
@@ -1991,13 +1917,13 @@ function Footer({ onSecretTap }: { onSecretTap?: () => void }) {
 
 /* ───────────── Main Page ───────────── */
 export default function Home() {
-  const { duelMode, toast, requestMotion, motionEnabled } = useShakeDuelMode();
+  const { duelMode, toast, handleSecretTap } = useDuelMode();
 
   return (
     <DuelModeContext.Provider value={duelMode}>
       <main>
         <Navbar />
-        <Hero />
+        <Hero onSecretTap={handleSecretTap} />
         <RouteOverview />
         <Itinerary />
         <Accommodations />
@@ -2009,7 +1935,7 @@ export default function Home() {
         <ArabicPhrases />
         <Pricing />
         <EmergencyContacts />
-        <Footer onSecretTap={requestMotion} />
+        <Footer />
       </main>
 
       {/* Duel Mode Toast */}
