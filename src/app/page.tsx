@@ -91,6 +91,7 @@ function DualClock() {
 /* ───────────── Navigation ───────────── */
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const duelMode = React.useContext(DuelModeContext);
   const links = [
     { href: "#itinerary", label: "每日行程" },
     { href: "#hotels", label: "住宿安排" },
@@ -108,10 +109,16 @@ function Navbar() {
   return (
     <nav className="nav-glass fixed top-0 right-0 left-0 z-50 border-b border-gold/20">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-        <a href="#" className="flex items-center">
+        <a href="#" className="flex items-center gap-2">
           <span className="font-heading text-lg font-bold text-gold">
             Egypt 2026
           </span>
+          {duelMode && (
+            <span className="relative inline-block select-none" style={{ width: "20px", height: "20px" }} title="決鬥模式">
+              <span className="text-gold text-[15px] leading-none">△</span>
+              <span className="absolute inset-0 flex items-center justify-center text-[8px]" style={{ marginTop: "1px" }}>👁</span>
+            </span>
+          )}
         </a>
 
         {/* Desktop */}
@@ -1945,15 +1952,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Duel Mode Indicator */}
-      {duelMode && (
-        <div className="fixed top-3 right-3 z-[90] flex h-8 w-8 items-center justify-center rounded-full bg-nile/80 text-[10px] leading-none shadow-lg backdrop-blur-sm select-none" title="決鬥模式">
-          <span className="relative">
-            <span className="text-gold">△</span>
-            <span className="absolute inset-0 flex items-center justify-center text-[7px]" style={{ marginTop: "1px" }}>👁</span>
-          </span>
-        </div>
-      )}
     </DuelModeContext.Provider>
   );
 }
