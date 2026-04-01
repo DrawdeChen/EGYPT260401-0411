@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import {
   tourInfo,
   outboundFlights,
@@ -652,14 +653,15 @@ function AttractionItem({
         </div>
       )}
 
-      {/* Deep Content Bottom Sheet */}
-      {showSheet && attraction.deepContent && (
+      {/* Deep Content Bottom Sheet (portal to body) */}
+      {showSheet && attraction.deepContent && createPortal(
         <DeepContentSheet
           title={attraction.zh}
           content={attraction.deepContent}
           duelCards={hasDuelCards ? attraction.duelCards : undefined}
           onClose={() => setShowSheet(false)}
-        />
+        />,
+        document.body
       )}
     </li>
   );
