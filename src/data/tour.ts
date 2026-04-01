@@ -1157,7 +1157,7 @@ export const importantNotes = [
     category: "境內航班",
     items: [
       "建議提前 2 小時到機場",
-      "航廈：埃及航空國內線 → Terminal 2、國際線 → Terminal 3；Air Cairo / Nile Air → Terminal 1",
+      "航廈可能依航班調整，出發前請確認訂票確認信或航空公司 App（埃及航空可能是 T2 或 T3；Air Cairo / Nile Air 通常 T1）",
       "第二道安檢需脫鞋，液體不可帶上機",
       "託運行李 23kg、隨身行李 7-8kg（視票種，以訂票確認信為準）",
       "境內航班不提供餐點，有免費飲料",
