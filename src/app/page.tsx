@@ -669,6 +669,23 @@ function AttractionItem({
             </div>
           )}
 
+          {/* Practical Tips */}
+          {attraction.practicalTips && attraction.practicalTips.length > 0 && (
+            <div className="mt-2 rounded-lg border border-emerald/20 bg-emerald/5 px-3 py-2.5">
+              <p className="mb-2 text-[10px] font-bold tracking-wider text-emerald uppercase">
+                實用提醒
+              </p>
+              <ul className="space-y-1.5">
+                {attraction.practicalTips.map((tip, i) => (
+                  <li key={i} className="flex items-start gap-1.5 text-xs leading-relaxed text-nile/55">
+                    <span className="mt-px shrink-0">{tip.slice(0, 2)}</span>
+                    <span>{tip.slice(2)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {/* Deep Dive Button */}
           {hasDeep && (
             <button
@@ -1024,6 +1041,23 @@ function DayCard({ day }: { day: (typeof itinerary)[number] }) {
                 {d}
               </span>
             ))}
+          </div>
+        )}
+
+        {/* Day-level Practical Tips */}
+        {day.practicalTips && day.practicalTips.length > 0 && (
+          <div className="mt-4 rounded-lg border border-emerald/20 bg-emerald/5 px-4 py-3">
+            <p className="mb-2 text-[10px] font-bold tracking-wider text-emerald uppercase">
+              當日須知
+            </p>
+            <ul className="space-y-1.5">
+              {day.practicalTips.map((tip, i) => (
+                <li key={i} className="flex items-start gap-1.5 text-xs leading-relaxed text-nile/55">
+                  <span className="mt-px shrink-0">{tip.slice(0, 2)}</span>
+                  <span>{tip.slice(2)}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>

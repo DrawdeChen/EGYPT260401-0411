@@ -21,6 +21,7 @@ export interface Attraction {
   isActivity?: boolean;
   deepContent?: DeepContent;
   duelCards?: DuelCard[];
+  practicalTips?: string[];
 }
 
 export interface DaySchedule {
@@ -31,6 +32,7 @@ export interface DaySchedule {
   departureTime?: string;
   attractions: Attraction[];
   hiddenAttractions?: Attraction[];
+  practicalTips?: string[];
   alternateVersion?: {
     title: string;
     subtitle: string;
@@ -264,6 +266,10 @@ export const itinerary: DaySchedule[] = [
             { name: "Zooba", desc: "潮流埃及街頭美食，主打 ta'ameya（埃及 falafel）、ful（蠶豆泥）、hawawshi（肉餡烤餅）" },
           ],
         },
+        practicalTips: [
+          "🕌 女士不需自備頭巾，穿太短可在清真寺門口免費借阿拉伯袍",
+          "👟 進清真寺需脫鞋，怕髒可在入口買一次性鞋套（約 1 USD）",
+        ],
       },
       {
         zh: "穆罕默德·阿里清真寺",
@@ -307,6 +313,11 @@ export const itinerary: DaySchedule[] = [
             { name: "Old Cairo Restaurant & Cafe", desc: "懸空教堂附近最方便的選擇，傳統埃及料理，價格實惠" },
           ],
         },
+        practicalTips: [
+          "📷 室內主堂禁止拍照（尤其禁閃光燈），室外可自由拍",
+          "👗 女士避免短褲短裙細肩帶，教堂不強制頭巾但需衣著整齊",
+          "🚶 科普特區街道狹窄人多，請跟緊領隊",
+        ],
       },
       {
         zh: "洞穴教堂（聖西蒙修道院）",
@@ -327,6 +338,12 @@ export const itinerary: DaySchedule[] = [
           ],
           food: [],
         },
+        practicalTips: [
+          "👗 女士不可穿短褲短裙細肩帶，男士避免無袖背心",
+          "🔇 教堂內保持安靜，避免打擾禮拜",
+          "👟 有上坡與石階，穿舒適鞋子",
+          "🧥 教堂內部涼爽，可準備薄外套",
+        ],
       },
       {
         zh: "哈里里市集",
@@ -351,6 +368,14 @@ export const itinerary: DaySchedule[] = [
             { name: "街頭小吃", desc: "市集內攤販的 ta'ameya（埃及 falafel，用蠶豆製作）、samosa、koshari，便宜道地" },
           ],
         },
+        practicalTips: [
+          "💰 一定要殺價！開價 100 → 從 30 開始出價，不成就走人，通常店家會叫你回來",
+          "🏪 固定價格商店「Jordy」東西便宜透明，適合不想殺價的人",
+          "💳 大部分不接受刷卡，要帶現金埃鎊",
+          "💵 不要在馬路上打開錢包拿大鈔，準備零錢放口袋",
+          "🍹 芒果汁和檸檬薄荷汁特別值得一試",
+          "📍 集合點在咖啡廳，開逛前先拍集合點照片，迷路可拿給路人看",
+        ],
       },
     ],
     meals: { lunch: "當地餐廳", dinner: "當地餐廳" },
@@ -494,6 +519,12 @@ export const itinerary: DaySchedule[] = [
     meals: { breakfast: "飯店", lunch: "沙漠野餐", dinner: "沙漠營火晚餐" },
     hotel: "黑白沙漠星空飯店 Sky Camp",
     details: ["車程約 3.5 小時", "沙漠吉普車探險", "夜晚銀河星空壯觀"],
+    practicalTips: [
+      "🧳 大行李寄存開羅飯店，只帶小包進沙漠（前晚跟導遊確認寄存方式）",
+      "🚿 露營無法洗澡，帶濕紙巾和乾洗手液",
+      "🚻 綠洲午餐處是進沙漠前最後有廁所的地方，之後只能戶外解決",
+      "🍽️ 沙漠行程包含餐食和礦泉水",
+    ],
   },
   {
     day: 3,
@@ -592,6 +623,13 @@ export const itinerary: DaySchedule[] = [
             { name: "Andrea El Haram", desc: "開羅人週末最愛的老字號烤雞，在地人推薦" },
           ],
         },
+        practicalTips: [
+          "🎫 門票要收好！到獅身人面像還要再查一次",
+          "🙅 不要接受陌生人幫拍照，之後會索取小費",
+          "⚠️ 有人會把紀念品塞到你手上再收錢，堅定說 No thank you",
+          "🚌 園區接駁車下車務必帶走所有隨身物品，車會被其他遊客使用",
+          "🐪 騎駱駝已包含在行程，不要跟場外攬客者自行安排（價高且有風險）",
+        ],
       },
       {
         zh: "騎駱駝體驗",
@@ -659,6 +697,9 @@ export const itinerary: DaySchedule[] = [
         duelCards: [
           { cardName: "歐西里斯的天空龍", cardNameEn: "Slifer the Sky Dragon", connection: "整座菲萊神廟講述的就是伊西斯復活歐西里斯的故事。牆上滿是歐西里斯的浮雕——死而復生的冥界之神。天空龍以歐西里斯為名，代表神聖的審判力量。", photoTip: "找到神廟內歐西里斯的浮雕（通常是綠色皮膚、手持連枷和權杖的神像），手持天空龍卡在浮雕旁合影。" },
         ],
+        practicalTips: [
+          "🛍️ 碼頭有攤販和小孩兜售，建議直接上船不要停留，買了一個其他人會蜂擁而至",
+        ],
       },
       {
         zh: "尼羅河風帆船 Felucca",
@@ -701,11 +742,25 @@ export const itinerary: DaySchedule[] = [
             { name: "Karkade 洛神花茶", desc: "亞斯文特產！深紅色洛神花乾泡製，酸甜花香，市集可大量購買" },
           ],
         },
+        practicalTips: [
+          "🚤 坐船來回共約 70 分鐘",
+          "⚠️ 海娜紋身不太推薦，原料品質不一",
+          "💰 集市可逛但記得殺價，時間不夠可現場跟導遊說延長",
+          "🧥 日落後河邊會變涼，帶薄外套",
+        ],
       },
     ],
     meals: { breakfast: "飯店", lunch: "郵輪", dinner: "郵輪" },
     hotel: "尼羅河郵輪 EL MAHROUSA（標準船型）",
     details: ["登上尼羅河郵輪 EL MAHROUSA", "開始 3 晚郵輪之旅"],
+    practicalTips: [
+      "🎫 船卡制度：下船拿卡、回船交卡，用來確認所有人是否回船",
+      "💵 房間每晚留 1 USD 小費給服務員",
+      "🍹 飲料需自費，簽名+房號，退房時一次結清",
+      "🔌 插座有限，建議帶延長線或行動電源",
+      "🧸 毛巾摺動物：服務員有時會用毛巾摺小動物放床上當驚喜",
+      "🧥 郵輪冷氣偏涼，帶薄外套",
+    ],
   },
   {
     day: 6,
@@ -735,6 +790,12 @@ export const itinerary: DaySchedule[] = [
         },
         duelCards: [
           { cardName: "太陽神的翼神龍", cardNameEn: "The Winged Dragon of Ra", connection: "阿布辛貝的太陽奇蹟——每年兩次太陽光精準穿過 60 公尺走廊照亮太陽神拉的雕像。整座神殿就是獻給太陽神的祭壇。翼神龍以太陽神拉為名，是三幻神中最強的存在。", photoTip: "在神殿正面四座 20 公尺巨像前，手持翼神龍卡仰拍——讓卡片與太陽同框，重現太陽神降臨的氣勢。清晨光線最佳。" },
+        ],
+        practicalTips: [
+          "🌅 郵輪團凌晨 4:15 出發，建議帶頸枕車上補眠",
+          "🎤 導遊只能在戶外廣場講解，神殿內部自由參觀",
+          "📷 神殿內禁閃光燈，部分房間禁止攝影",
+          "🥪 飯店/郵輪會準備打包早餐，建議自備零食",
         ],
       },
       {
@@ -775,6 +836,11 @@ export const itinerary: DaySchedule[] = [
           ],
           food: [],
         },
+        practicalTips: [
+          "📷 鱷魚博物館禁止拍照，導遊也不得進入講解",
+          "🚢 下船前拍自己郵輪的照片！回程可能要穿過其他郵輪才能回到自己的船",
+          "🛍️ 前往神殿路上有小販和小孩，建議先專心參觀不要停留",
+        ],
       },
     ],
     meals: { breakfast: "郵輪（打包車上享用）", lunch: "郵輪", dinner: "郵輪" },
@@ -810,6 +876,24 @@ export const itinerary: DaySchedule[] = [
           ],
           food: [],
         },
+        practicalTips: [
+          "🐴 馬車有固定編號，去回必須坐同一輛，小費約 1 USD",
+          "😷 沿途灰塵多有馬糞味，建議帶口罩",
+          "⏰ 全埃及最混亂的景點——所有郵輪同時到達，參觀時間約 1 小時很緊湊",
+          "📸 有攝影師主動幫拍照，回程兜售照片，可殺價，注意別錯過開船時間",
+          "🎤 導遊在入口外先講解，進去後自由參觀",
+        ],
+      },
+      {
+        zh: "埃斯納水閘門",
+        en: "Esna Lock",
+        description: "郵輪航行途中會通過埃斯納水閘門，調節尼羅河水位讓船順利通過。閘門開關、水位升降的過程約 30 分鐘，是尼羅河郵輪獨特的體驗。",
+        practicalTips: [
+          "🛍️ 水閘兩側有小販划小船靠近，會把商品丟上郵輪——「水上交易」很特別",
+          "💰 小販喊價偏高，有興趣可殺價，不要把手機錢包遞給小販",
+          "⏳ 旺季可能排隊等 1-2 小時，可帶零食上甲板看河景",
+          "🌙 夜晚通過時燈光倒影很漂亮，適合拍照",
+        ],
       },
       { zh: "郵輪駛往盧克索", en: "Cruise sails to Luxor", isActivity: true },
       {
@@ -878,6 +962,13 @@ export const itinerary: DaySchedule[] = [
         duelCards: [
           { cardName: "黑暗大法師", cardNameEn: "Dark Magician", connection: "帝王谷墓穴壁畫中大量描繪祭司為法老施行通往來世的魔法儀式——這正是黑暗大法師的原型。祭司手持權杖、唸誦咒語的場景，與黑暗大法師的形象如出一轍。", photoTip: "在墓穴壁畫中找到祭司施法的場景，手持黑暗大法師卡對照拍攝。注意禁閃光燈！" },
           { cardName: "黑魔導女孩", cardNameEn: "Dark Magician Girl", connection: "作為黑暗大法師的弟子，在古埃及的脈絡中對應著祭司傳承體系。墓穴壁畫中也有女性參與祭祀儀式的場景。", photoTip: "找到有女性神祇或女祭司的壁畫段落拍攝。" },
+        ],
+        practicalTips: [
+          "🎫 普通門票可進 3 座墓穴，導遊會現場選最值得的",
+          "💰 圖坦卡門墓（KV62）、塞提一世墓（KV17）、拉美西斯六世墓（KV9）需另購票",
+          "📸 手機可拍照（禁閃光燈），不再需要另購攝影票",
+          "🚃 門口有電動車接送（額外付費）",
+          "🌡️ 墓穴內悶熱，穿透氣衣物",
         ],
       },
       {
@@ -1050,6 +1141,26 @@ export const importantNotes = [
       "埃及使用 Type C 歐規雙圓孔插座，電壓 220V / 50Hz",
       "台灣電器（110V）需攜帶轉接頭，建議帶萬用轉接頭",
       "手機充電器通常支援 100–240V 不需變壓器，但請確認充電器上的標示",
+    ],
+  },
+  {
+    category: "住宿須知",
+    items: [
+      "部分飯店沒有附拖鞋、牙刷、牙膏，建議自行攜帶",
+      "服務速度比台灣慢，請耐心等待；若長時間沒回應可在群組反映",
+      "三人房通常是雙人房加小床（摺疊床），舒適度有限",
+      "洗衣服務約每件 1 USD，需洽詢前台確認價格",
+      "房間無法從外面上鎖，出門時隨身攜帶錢包和手機",
+    ],
+  },
+  {
+    category: "境內航班",
+    items: [
+      "建議提前 2 小時到機場",
+      "航廈：埃及航空 → Terminal 3，開羅航空/尼羅河航空 → Terminal 1",
+      "第二道安檢需脫鞋，液體不可帶上機",
+      "託運行李 23kg、隨身行李 7kg",
+      "境內航班不提供餐點，有免費飲料",
     ],
   },
 ];
